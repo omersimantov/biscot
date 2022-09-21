@@ -69,7 +69,3 @@ model Card {
   listId      String
   list        List    @relation(fields: [listId], references: [id])
 }
-
-model Example {
-  id String @id
-}
