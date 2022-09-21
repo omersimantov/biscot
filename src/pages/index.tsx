@@ -19,16 +19,15 @@ const Home: NextPage = () => {
     setData(data);
   };
 
-  // const createList = async (): Promise<void> => {
-  //   const res = await fetch("/api/list", {
-  //     method: "CREATE",
-  //     body: JSON.stringify({
-  //       title: "New List"
-  //     })
-  //   });
-  //   const data = await JSON.parse(res.body);
-  //   setData(data);
-  // };
+  const createList = async (): Promise<void> => {
+    const res = await fetch("/api/list", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: "New List" })
+    });
+    const data = await res.json();
+    setData(data);
+  };
 
   return (
     <>
@@ -39,10 +38,12 @@ const Home: NextPage = () => {
         <main className={classNames("py-10 flex min-h-screen", !data && "overflow-hidden")}>
           {data ? (
             <>
-              {data.map((list, i) => (
-                <List key={i} title={list.title} cards={list.cards} />
+              {data.map((list) => (
+                <List key={list.id} id={list.id} title={list.title} cards={list.cards} />
               ))}
-              <div className="hover:bg-neutral-800 rounded-xl p-4 text-center font-medium cursor-pointer min-w-[18rem] ml-10 mr-[7.5rem]">
+              <div
+                className="hover:bg-neutral-800 rounded-xl p-4 text-center font-medium cursor-pointer min-w-[18rem] ml-10 mr-[7.5rem]"
+                onClick={createList}>
                 + Add
               </div>
             </>

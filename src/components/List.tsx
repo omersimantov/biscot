@@ -2,6 +2,7 @@ import { PencilIcon } from "@heroicons/react/24/outline";
 import { Card } from "./Card";
 
 export type List = {
+  id: string;
   title: string;
   cards: Card[];
 };
@@ -17,8 +18,8 @@ export const List = ({ title, cards }: List): JSX.Element => {
         />
       </div>
       <div>
-        {cards.map((card, i) => (
-          <Card key={i} title={card.title} description={card.description} />
+        {cards.map((card) => (
+          <Card key={card.id} id={card.id} listId={card.listId} title={card.title} description={card.description} />
         ))}
         <div className="hover:bg-neutral-800 rounded-xl p-4 text-center font-medium cursor-pointer min-w-full w-72">
           + Add

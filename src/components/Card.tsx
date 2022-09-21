@@ -3,19 +3,31 @@ import { useState } from "react";
 import Toast from "./Toast";
 
 export type Card = {
+  id: string;
   title: string;
   description?: string;
+  listId: string;
 };
 
-export const Card = ({ title, description }: Card): JSX.Element => {
+export const Card = ({ id, title, description, listId }: Card): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
 
-  const remove = (): void => {
+  const remove = async (): Promise<void> => {
     setShow(false);
+    await fetch("/api/card", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id })
+    });
   };
 
-  const undo = (): void => {
+  const undo = async (): Promise<void> => {
     setShow(true);
+    await fetch("/api/card", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, description, listId })
+    });
   };
 
   return show ? (
