@@ -1,0 +1,18 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss",
+    "prisma.prisma",
+    "streetsidesoftware.code-spell-checker",
+    "rogerchi.vsce-gitkeep",
+    "github.copilot",
+    "gruntfuggly.todo-tree",
+    "meganrogge.template-string-converter",
+    "formulahendry.auto-rename-tag",
+    "mikestead.dotenv",
+    "dsznajder.es7-react-js-snippets",
+    "xabikos.javascriptsnippets",
+    "johnpapa.vscode-cloak"
+  ]
+}

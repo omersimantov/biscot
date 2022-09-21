@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    @apply duration-75 outline-none;
+  }
+
+  html {
+    @apply overflow-auto antialiased overscroll-none select-none scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 scrollbar-thumb-rounded;
+  }
+
+  body {
+    @apply bg-bg text-white text-sm;
+  }
+}
+
+@layer utilities {
+  @keyframes dash {
+    0% {
+      stroke-dasharray: 1, 150;
+      stroke-dashoffset: 0;
+    }
+    50% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -35;
+    }
+    100% {
+      stroke-dasharray: 90, 150;
+      stroke-dashoffset: -124;
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+}
