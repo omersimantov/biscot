@@ -3,21 +3,41 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   if (req.method === "POST") {
-    const list = await prisma.card.create({
-      data: {
-        index: 1,
-        title: req.body.title,
-        description: req.body.description,
-        listId: req.body.listId
-      }
-    });
-    return res.status(201).json(list);
+    try {
+      const list = await prisma.card.create({
+        data: {
+          id: req.body.id,
+          index: req.body.index,
+          title: req.body.title,
+          listId: req.body.listId
+        }
+      });
+      return res.status(201).json(list);
+    } catch (error) {
+      return res.status(500).json({ error });
+    }
   }
 
   if (req.method === "DELETE") {
-    await prisma.card.delete({
-      where: { id: req.body.id }
-    });
-    res.status(200).end();
+    try {
+      await prisma.card.delete({
+        where: { id: req.body.id }
+      });
+      res.status(200).end();
+    } catch (error) {
+      return res.status(500).json({ error });
+    }
+  }
+
+  if (req.method === "PATCH") {
+    try {
+      await prisma.card.update({
+        where: { id: req.body.id },
+        data: { title: req.body.title, description: req.body.description }
+      });
+      res.status(200).end();
+    } catch (error) {
+      return res.status(500).json({ error });
+    }
   }
 };
