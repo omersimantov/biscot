@@ -1,6 +1,6 @@
 import { List } from "@/components/List";
 import { ListSkeleton } from "@/components/ListSkeleton";
-import { Bars3Icon, EyeIcon } from "@heroicons/react/24/outline";
+import { AcademicCapIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import classNames from "classnames";
 import cuid from "cuid";
 import type { NextPage } from "next";
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
     setLists(data);
   };
 
-  const createList = async (): Promise<void> => {
+  const addList = async (): Promise<void> => {
     const id = cuid();
     const newList = {
       id,
@@ -43,44 +43,45 @@ const Home: NextPage = () => {
       <Head>
         <title>Biscot</title>
       </Head>
-      <div className="flex min-h-screen">
-        <main
-          className={classNames("py-10 flex divide-x-[1px] divide-neutral-700 mr-[5rem]", !lists && "overflow-hidden")}>
-          {lists ? (
-            <>
-              {lists.map((list) => (
-                <List
-                  key={list.id}
-                  id={list.id}
-                  index={lists.length}
-                  title={list.title}
-                  cards={list.cards}
-                  userId={userId}
-                />
-              ))}
-              <div className="px-10 h-full min-w-fit">
-                <div
-                  className="hover:bg-neutral-800 rounded-xl h-full p-4 text-center font-medium cursor-pointer w-72"
-                  onClick={createList}>
-                  + Add
-                </div>
+      <header className="border-b border-border h-16 px-10 flex items-center justify-between w-full bg-neutral-800">
+        <AcademicCapIcon className="w-6" />
+        <Bars3Icon className="w-6 cursor-pointer" />
+      </header>
+      <main
+        className={classNames(
+          "py-10 flex divide-x-[1px] divide-neutral-700 min-h-[calc(100vh-4rem)]",
+          !lists && "overflow-hidden"
+        )}>
+        {lists ? (
+          <>
+            {lists.map((list) => (
+              <List
+                key={list.id}
+                id={list.id}
+                index={lists.length}
+                title={list.title}
+                cards={list.cards}
+                userId={userId}
+              />
+            ))}
+            <div className="px-10 min-h-full min-w-fit">
+              <div
+                className="hover:bg-neutral-800 rounded-xl p-4 text-center font-medium cursor-pointer w-72 text-sm"
+                onClick={addList}>
+                + Add
               </div>
-            </>
-          ) : (
-            <div className="flex mr-20 divide-x-[1px] divide-neutral-700 min-w-fit">
-              {Array(100)
-                .fill(true)
-                .map((_, i) => (
-                  <ListSkeleton key={i} />
-                ))}
             </div>
-          )}
-        </main>
-        <nav className="w-20 border-l border-border flex flex-col items-center justify-between py-10 fixed right-0 h-full bg-bg">
-          <EyeIcon className="w-6 text-neutral-500" />
-          <Bars3Icon className="w-6 cursor-pointer text-neutral-500 hover:text-white" />
-        </nav>
-      </div>
+          </>
+        ) : (
+          <div className="flex mr-20 divide-x-[1px] divide-neutral-700 min-w-fit">
+            {Array(100)
+              .fill(true)
+              .map((_, i) => (
+                <ListSkeleton key={i} />
+              ))}
+          </div>
+        )}
+      </main>
     </>
   );
 };

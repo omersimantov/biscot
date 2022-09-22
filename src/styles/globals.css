@@ -4,15 +4,16 @@
 
 @layer base {
   * {
-    @apply duration-75 outline-none overflow-y-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 scrollbar-thumb-rounded;
+    @apply duration-75 outline-none overflow-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 scrollbar-thumb-rounded;
   }
 
   html {
-    @apply overflow-auto antialiased overscroll-none select-none;
+    @apply overflow-hidden antialiased overscroll-none select-none bg-bg text-white;
   }
 
-  body {
-    @apply bg-bg text-white text-sm;
+  [type="text"],
+  textarea {
+    @apply bg-neutral-800 border-0 p-0 h-fit focus:ring-transparent resize-none text-sm;
   }
 }
 
