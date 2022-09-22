@@ -13,7 +13,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   if (req.method === "POST") {
     const list = await prisma.list.create({
       data: {
-        index: 1,
+        id: req.body.id,
+        index: req.body.index,
         title: req.body.title,
         userId: req.body.userId
       }
