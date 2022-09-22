@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         data: {
           id: req.body.id,
           index: req.body.index,
-          title: req.body.title,
+          title: req.body.title.trim(),
           userId: req.body.userId
         }
       });
