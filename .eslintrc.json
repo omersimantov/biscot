@@ -22,7 +22,6 @@
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@next/next/no-img-element": "off",
     "jsx-a11y/role-supports-aria-props": "off", // @see https://github.com/vercel/next.js/issues/27989#issuecomment-897638654
-    "jsx-a11y/control-has-associated-label": "warn",
     "no-console": "error",
     "no-unused-vars": ["warn", { "args": "after-used", "argsIgnorePattern": "^_" }],
     "import/no-anonymous-default-export": "off",

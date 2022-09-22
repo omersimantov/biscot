@@ -11,7 +11,7 @@ export const Toast = ({ action }: { action: () => void }): JSX.Element => {
         open={open}
         onOpenChange={setOpen}
         className={cx(
-          "fixed bottom-4 left-4 w-72 rounded-xl",
+          "fixed bottom-4 left-4 w-60 rounded-xl text-sm text-white",
           "bg-neutral-900 border border-border",
           "radix-state-open:animate-toast-slide-in-bottom radix-state-open:animate-toast-slide-in-right",
           "radix-state-closed:animate-toast-hide",
@@ -20,8 +20,8 @@ export const Toast = ({ action }: { action: () => void }): JSX.Element => {
           "radix-swipe-cancel:translate-x-0 radix-swipe-cancel:duration-200 radix-swipe-cancel:ease-[ease]"
         )}>
         <div className="flex items-center justify-between p-4">
-          <ToastPrimitive.Title className="text-sm text-white font-normal">Removed</ToastPrimitive.Title>
-          <ToastPrimitive.Action altText="Undo" className="font-bold text-sm text-white" onClick={action}>
+          <ToastPrimitive.Title className="font-normal">Removed</ToastPrimitive.Title>
+          <ToastPrimitive.Action altText="Undo" className="font-bold" onClick={action}>
             Undo
           </ToastPrimitive.Action>
         </div>
