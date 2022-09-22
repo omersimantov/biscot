@@ -1,6 +1,6 @@
 import { Bars3BottomLeftIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
-import Toast from "./Toast";
+import { Toast } from "./Toast";
 
 export type Card = {
   id: string;

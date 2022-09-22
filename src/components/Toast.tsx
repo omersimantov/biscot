@@ -2,7 +2,7 @@ import * as ToastPrimitive from "@radix-ui/react-toast";
 import cx from "classnames";
 import { useState } from "react";
 
-const Toast = ({ action }: { action: () => void }): JSX.Element => {
+export const Toast = ({ action }: { action: () => void }): JSX.Element => {
   const [open, setOpen] = useState<boolean>(true);
 
   return (
@@ -11,7 +11,7 @@ const Toast = ({ action }: { action: () => void }): JSX.Element => {
         open={open}
         onOpenChange={setOpen}
         className={cx(
-          "fixed bottom-4 left-4 w-60 rounded-xl",
+          "fixed bottom-4 left-4 w-72 rounded-xl",
           "bg-neutral-900 border border-border",
           "radix-state-open:animate-toast-slide-in-bottom radix-state-open:animate-toast-slide-in-right",
           "radix-state-closed:animate-toast-hide",
@@ -30,5 +30,3 @@ const Toast = ({ action }: { action: () => void }): JSX.Element => {
     </ToastPrimitive.Provider>
   );
 };
-
-export default Toast;

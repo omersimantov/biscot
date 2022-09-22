@@ -4,11 +4,11 @@
 
 @layer base {
   * {
-    @apply duration-75 outline-none;
+    @apply duration-75 outline-none overflow-y-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 scrollbar-thumb-rounded;
   }
 
   html {
-    @apply overflow-auto antialiased overscroll-none select-none scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 scrollbar-thumb-rounded;
+    @apply overflow-auto antialiased overscroll-none select-none;
   }
 
   body {

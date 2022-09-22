@@ -1,20 +1,44 @@
-import { PencilIcon } from "@heroicons/react/24/outline";
+import { Toast } from "@/components/Toast";
+import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { Card } from "./Card";
 
 export type List = {
   id: string;
+  index: number;
   title: string;
+  userId: string;
   cards: Card[];
 };
 
-export const List = ({ title, cards }: List): JSX.Element => {
-  return (
-    <div className="px-10 border-r border-neutral-700 group">
+export const List = ({ id, index, title, cards, userId }: List): JSX.Element => {
+  const [show, setShow] = useState<boolean>(true);
+
+  const remove = async (): Promise<void> => {
+    setShow(false);
+    await fetch("/api/list", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id })
+    });
+  };
+
+  const undo = async (): Promise<void> => {
+    setShow(true);
+    await fetch("/api/list", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, index, title, userId })
+    });
+  };
+
+  return show ? (
+    <div className="px-10 group h-full min-w-fit">
       <div className="flex items-center justify-between mb-5 cursor-pointer">
         <h1 className="text-lg font-bold">{title}</h1>
-        <PencilIcon
-          className="w-4 text-neutral-500 hover:text-white ml-4 group-hover:block hidden"
-          onClick={(): void => alert("Edit List Modal")}
+        <EllipsisHorizontalIcon
+          className="w-7 text-neutral-500 hover:text-white ml-4 group-hover:block hidden"
+          onClick={remove}
         />
       </div>
       <div>
@@ -25,6 +49,11 @@ export const List = ({ title, cards }: List): JSX.Element => {
           + Add
         </div>
       </div>
+    </div>
+  ) : (
+    /* Empty div so that it animates on removal & undo */
+    <div>
+      <Toast action={undo} />
     </div>
   );
 };
