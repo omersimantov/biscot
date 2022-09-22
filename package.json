@@ -26,6 +26,7 @@
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-toast": "^1.0.0",
     "classnames": "^2.3.2",
+    "cuid": "^2.1.8",
     "next": "12.3.1",
     "next-auth": "^4.10.3",
     "next-pwa": "^5.6.0",
