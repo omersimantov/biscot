@@ -34,7 +34,7 @@ export default defineNextConfig({
     return [
       {
         // Attempt to mitigate DDoS attacks
-        source: "/api/auth/:path*",
+        source: "/api/auth/:path*", // TODO: Edit? Based on auth implementation
         has: [
           {
             type: "query",
