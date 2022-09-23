@@ -56,7 +56,7 @@ export const List = (list: List): JSX.Element => {
       <div className="flex items-center justify-between mb-5 cursor-pointer">
         <h1 className="text-lg font-bold">{list.title}</h1>
         <EllipsisHorizontalIcon
-          className="w-7 text-neutral-500 hover:text-white ml-4 group-hover:block hidden"
+          className="w-7 text-neutral-500 hover:text-white ml-3 group-hover:block hidden"
           onClick={remove}
         />
       </div>
@@ -72,7 +72,7 @@ export const List = (list: List): JSX.Element => {
           />
         ))}
         <div
-          className="hover:bg-neutral-800 rounded-xl p-4 text-center font-medium cursor-pointer min-w-full w-72 px-10 text-sm"
+          className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer min-w-full w-72 px-10 text-sm"
           onClick={addCard}>
           + Add
         </div>
@@ -80,7 +80,7 @@ export const List = (list: List): JSX.Element => {
     </div>
   ) : (
     /* Empty div so that it animates on removal & undo */
-    <div>
+    <div className="!border-0">
       <Toast action={undo} />
     </div>
   );

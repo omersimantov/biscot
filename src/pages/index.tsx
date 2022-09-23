@@ -1,6 +1,6 @@
+import { Header } from "@/components/Header";
 import { List } from "@/components/List";
 import { ListSkeleton } from "@/components/ListSkeleton";
-import { AcademicCapIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import classNames from "classnames";
 import cuid from "cuid";
 import type { NextPage } from "next";
@@ -43,10 +43,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Biscot</title>
       </Head>
-      <header className="border-b border-border h-16 px-10 flex items-center justify-between w-full bg-neutral-800">
-        <AcademicCapIcon className="w-6" />
-        <Bars3Icon className="w-6 cursor-pointer" />
-      </header>
+      <Header />
       <main
         className={classNames(
           "py-10 flex divide-x-[1px] divide-neutral-700 min-h-[calc(100vh-4rem)]",
@@ -66,7 +63,7 @@ const Home: NextPage = () => {
             ))}
             <div className="px-10 min-h-full min-w-fit">
               <div
-                className="hover:bg-neutral-800 rounded-xl p-4 text-center font-medium cursor-pointer w-72 text-sm"
+                className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
                 onClick={addList}>
                 + Add
               </div>

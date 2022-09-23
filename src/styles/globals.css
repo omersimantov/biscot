@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply duration-75 outline-none overflow-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 scrollbar-thumb-rounded;
+    @apply duration-75 outline-none overflow-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 hover:scrollbar-thumb-neutral-400 scrollbar-thumb-rounded;
   }
 
   html {
@@ -13,7 +13,7 @@
 
   [type="text"],
   textarea {
-    @apply bg-neutral-800 border-0 p-0 h-fit focus:ring-transparent resize-none text-sm;
+    @apply bg-neutral-800 border-0 p-0 focus:ring-transparent resize-none text-sm;
   }
 }
 
