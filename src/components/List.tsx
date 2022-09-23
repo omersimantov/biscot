@@ -57,11 +57,12 @@ export const List = (list: List): JSX.Element => {
   };
 
   return show ? (
-    <div className="px-10 group min-w-fit overflow-auto overscroll-y-none">
+    <div className="px-5 sm:px-10 group min-w-fit overflow-auto overscroll-y-none">
       <div className="flex justify-between cursor-pointer bg-bg h-14 items-start">
         <h1 className="text-lg font-bold">{list.title}</h1>
         <EllipsisHorizontalIcon
           className="w-7 text-neutral-500 hover:text-white ml-3 group-hover:block hidden"
+          strokeWidth={1}
           onClick={remove}
         />
       </div>
@@ -77,7 +78,7 @@ export const List = (list: List): JSX.Element => {
       ))}
       <div
         ref={endRef}
-        className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer min-w-full w-72 px-10 text-sm"
+        className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer min-w-full w-72 px-5 sm:px-10 text-sm"
         onClick={addCard}>
         + Add
       </div>

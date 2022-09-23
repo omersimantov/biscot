@@ -9,6 +9,7 @@ module.exports = {
       colors: {
         bg: "#222222",
         border: "#555555",
+        borderLight: "#777777",
         green: "#376e37",
         red: "#b91c1c"
       }

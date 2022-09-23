@@ -15,6 +15,10 @@
   textarea {
     @apply bg-neutral-800 border-0 p-0 focus:ring-transparent resize-none text-sm;
   }
+
+  hr {
+    @apply h-0.5 border-0 bg-border;
+  }
 }
 
 @layer utilities {

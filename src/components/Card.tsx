@@ -54,7 +54,7 @@ export const Card = (card: Card): JSX.Element => {
   };
 
   return show ? (
-    <div className="border w-72 rounded-lg border-border cursor-pointer bg-neutral-800 p-3 font-medium hover:border-[#777777] items-center flex justify-between space-x-3 mb-3 text-sm">
+    <div className="border w-72 rounded-lg border-border cursor-pointer bg-neutral-800 p-3 font-medium hover:border-borderLight items-center flex justify-between space-x-3 mb-3 text-sm">
       {editMode ? (
         <form onBlur={updateCard} onSubmit={updateCard} className="w-full">
           <textarea
@@ -69,12 +69,20 @@ export const Card = (card: Card): JSX.Element => {
       )}
       <div className="flex space-x-3 items-center min-w-fit">
         {description && (
-          <Bars3BottomLeftIcon className="w-[1.35rem] text-neutral-500 hover:text-white" onClick={openCardModal} />
+          <Bars3BottomLeftIcon
+            className="w-[1.35rem] text-neutral-500 hover:text-white"
+            strokeWidth={1}
+            onClick={openCardModal}
+          />
         )}
         {editMode ? (
-          <TrashIcon className="w-5 h-fit text-neutral-500 hover:text-white right-0" onClick={remove} />
+          <TrashIcon className="w-5 h-fit text-neutral-500 hover:text-white right-0" strokeWidth={1} onClick={remove} />
         ) : (
-          <PencilIcon className="w-4 text-neutral-500 hover:text-white" onClick={(): void => setEditMode(true)} />
+          <PencilIcon
+            className="w-4 text-neutral-500 hover:text-white"
+            strokeWidth={1}
+            onClick={(): void => setEditMode(true)}
+          />
         )}
       </div>
     </div>
