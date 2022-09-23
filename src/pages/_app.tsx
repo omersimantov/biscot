@@ -3,7 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/app";
 import "../styles/globals.css";
 
-// TODO: T3 Monorepo & PWA, animations
+// TODO: T3 Monorepo (NextAuth?), PWA, animations
 
 const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
   return (
