@@ -30,10 +30,10 @@ export const Modal = ({ toggle, content }: { content: JSX.Element; toggle: Mouse
       className="h-screen w-screen bg-neutral-900 cursor-pointer block sm:flex items-center justify-center md:bg-neutral-900/90 overflow-auto fixed left-0 top-0 z-50"
       onClick={closeModalOnBGClick}>
       <XMarkIcon
-        className="w-7 cursor-pointer text-neutral-500 hover:text-white fixed top-10 right-10"
+        className="w-7 cursor-pointer text-neutral-500 hover:text-white fixed top-0 right-0 m-5 md:m-10"
         onClick={toggle}
       />
-      <div className="flex items-center justify-center p-10 border-border md:h-fit h-full md:border bg-bg md:rounded-lg w-full md:max-w-prose cursor-auto overflow-auto">
+      <div className="flex items-center justify-center p-5 sm:p-10 border-border md:h-fit h-full md:border bg-bg md:rounded-lg w-full md:max-w-prose cursor-auto overflow-auto">
         {content}
       </div>
     </div>

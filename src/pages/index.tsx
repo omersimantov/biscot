@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 
 const Home: NextPage = () => {
   const [lists, setLists] = useState<List[]>();
-  const [session, setSession] = useState<string>("");
+  const [session, setSession] = useState<string>("f");
   const endRef = useRef<HTMLDivElement>(null);
   const userId = "cl8bw3e1t00159xpdasnwbgll"; // TODO: Get from session
 
@@ -37,7 +37,7 @@ const Home: NextPage = () => {
     lists ? setLists([...lists, newList]) : setLists([newList]);
     // Unclear why the setTimeout is necessary, but it is
     setTimeout(() => {
-      endRef.current && endRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
+      endRef.current && endRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
     });
     await fetch("/api/list", {
       method: "POST",
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
                     userId={userId}
                   />
                 ))}
-                <div ref={endRef} className="px-5 sm:px-10 min-h-full min-w-fit">
+                <div ref={endRef} className="px-10 min-h-full min-w-fit">
                   <div
                     className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
                     onClick={addList}>
@@ -91,18 +91,16 @@ const Home: NextPage = () => {
           </main>
         </>
       ) : (
-        <main className="grid px-5 py-10 sm:p-10 items-center min-h-screen">
+        <main className="grid px-5 items-center min-h-screen">
           <div className="space-y-8">
             <CakeIcon className="w-10 mx-auto" strokeWidth={1} />
             <div className="max-w-xs text-center text-lg mx-auto">
               Biscot is a minimal alternative to Trello for people who use it for personal stuff.
             </div>
-            <button
-              className="p-5 m-0 mx-auto border-border bg-neutral-800 border rounded-lg w-80 max-w-full font-bold items-center flex justify-center space-x-3 hover:border-borderLight"
-              onClick={(): void => setSession("g")}>
+            <a className="cursor-pointer text-center p-5 mx-auto border-border bg-neutral-800 border rounded-lg w-80 max-w-full font-bold items-center flex justify-center space-x-3 hover:border-borderLight">
               <GoogleIcon />
               <div>Continue with Google</div>
-            </button>
+            </a>
           </div>
         </main>
       )}
