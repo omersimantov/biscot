@@ -55,23 +55,25 @@ model VerificationToken {
 }
 
 model List {
-  id     String @id @default(cuid())
-  index  Int
-  title  String
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cards  Card[]
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  index     Int
+  title     String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cards     Card[]
 
   @@index([index])
 }
 
 model Card {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
   index       Int
   title       String
   description String?
   listId      String
-  list        List    @relation(fields: [listId], references: [id], onDelete: Cascade)
+  list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
 
   @@index([index])
 }
