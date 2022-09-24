@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from "react";
 
 const Home: NextPage = () => {
   const [lists, setLists] = useState<List[]>();
-  const [session, setSession] = useState<string>("f");
+  const [session, setSession] = useState<string>("f ");
   const endRef = useRef<HTMLDivElement>(null);
   const userId = "cl8bw3e1t00159xpdasnwbgll"; // TODO: Get from session
 
@@ -92,7 +92,7 @@ const Home: NextPage = () => {
         </>
       ) : (
         <main className="grid px-5 items-center min-h-screen">
-          <div className="space-y-8">
+          <div className="space-y-7">
             <CakeIcon className="w-10 mx-auto" strokeWidth={1} />
             <div className="max-w-xs text-center text-lg mx-auto">
               Biscot is a minimal alternative to Trello for people who use it for personal stuff.
