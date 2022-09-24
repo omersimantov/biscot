@@ -4,7 +4,7 @@
 
 @layer base {
   * {
-    @apply duration-75 select-none outline-none overflow-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 hover:scrollbar-thumb-neutral-400 scrollbar-thumb-rounded;
+    @apply select-none outline-none overflow-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 hover:scrollbar-thumb-neutral-400 scrollbar-thumb-rounded;
   }
 
   html {
@@ -13,11 +13,7 @@
 
   [type="text"],
   textarea {
-    @apply bg-neutral-800 border-0 p-0 focus:ring-transparent resize-none text-sm;
-  }
-
-  hr {
-    @apply h-0.5 border-0 bg-border;
+    @apply leading-6 bg-neutral-800 w-full p-0 focus:ring-transparent resize-none overflow-hidden text-sm block border border-border focus:border-borderLight rounded-lg placeholder:text-neutral-500;
   }
 }
 
