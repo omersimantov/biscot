@@ -40,8 +40,10 @@ export const List = (list: List): JSX.Element => {
     const id = cuid();
     const newCard = {
       id,
+      createdAt: new Date().toISOString(),
       index: cards.length,
       title: "New Card",
+      description: "",
       listId: list.id
     };
     setCards([...cards, newCard]);
@@ -57,7 +59,7 @@ export const List = (list: List): JSX.Element => {
   };
 
   return show ? (
-    <div className="px-5 sm:px-10 group min-w-fit overflow-auto overscroll-y-none">
+    <div className="px-10 group min-w-fit overflow-auto overscroll-y-none">
       <div className="flex justify-between cursor-pointer bg-bg h-14 items-start">
         <h1 className="text-lg font-bold">{list.title}</h1>
         <EllipsisHorizontalIcon
@@ -70,6 +72,7 @@ export const List = (list: List): JSX.Element => {
         <Card
           key={card.id}
           id={card.id}
+          createdAt={card.createdAt}
           index={card.index}
           listId={card.listId}
           title={card.title}
@@ -78,15 +81,12 @@ export const List = (list: List): JSX.Element => {
       ))}
       <div
         ref={endRef}
-        className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer min-w-full w-72 px-5 sm:px-10 text-sm"
+        className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer min-w-full w-72 px-10 text-sm"
         onClick={addCard}>
         + Add
       </div>
     </div>
   ) : (
-    /* Empty div so that it animates on removal & undo */
-    <div className="!border-0">
-      <Toast action={undo} />
-    </div>
+    <Toast action={undo} />
   );
 };
