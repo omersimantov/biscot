@@ -13,6 +13,10 @@ module.exports = {
         green: "#376e37",
         red: "#b91c1c"
       }
+    },
+    animation: {
+      spinSlow: "spin 0.75s linear infinite",
+      dash: "dash 1s ease-in-out infinite"
     }
   },
   // eslint-disable-next-line @typescript-eslint/no-var-requires
