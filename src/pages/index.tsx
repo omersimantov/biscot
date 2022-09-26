@@ -2,18 +2,20 @@ import { GoogleIcon } from "@/components/GoogleIcon";
 import { Header } from "@/components/Header";
 import { List } from "@/components/List";
 import { ListSkeleton } from "@/components/ListSkeleton";
+import type { List as TList } from "@/lib/types/List";
 import { CakeIcon } from "@heroicons/react/24/outline";
 import classNames from "classnames";
 import cuid from "cuid";
 import type { NextPage } from "next";
-import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 
 const Home: NextPage = () => {
-  const [lists, setLists] = useState<List[]>();
-  const [session, setSession] = useState<string>("f ");
+  const [lists, setLists] = useState<TList[]>();
   const endRef = useRef<HTMLDivElement>(null);
-  const userId = "cl8bw3e1t00159xpdasnwbgll"; // TODO: Get from session
+
+  // TODO: Get from session
+  const session = "f";
+  const userId = "cl8bw3e1t00159xpdasnwbgll";
 
   useEffect((): void => {
     fetchLists();
@@ -29,6 +31,7 @@ const Home: NextPage = () => {
     const id = cuid();
     const newList = {
       id,
+      createdAt: new Date().toISOString(),
       index: lists ? lists.length : 0,
       title: "New List",
       cards: [],
@@ -48,9 +51,6 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Head>
-        <title>Biscot</title>
-      </Head>
       {session ? (
         <>
           <Header />
@@ -62,14 +62,7 @@ const Home: NextPage = () => {
             {lists ? (
               <>
                 {lists.map((list) => (
-                  <List
-                    key={list.id}
-                    id={list.id}
-                    index={lists.length}
-                    title={list.title}
-                    cards={list.cards}
-                    userId={userId}
-                  />
+                  <List key={list.id} {...list} />
                 ))}
                 <div ref={endRef} className="px-10 min-h-full min-w-fit">
                   <div
@@ -91,18 +84,23 @@ const Home: NextPage = () => {
           </main>
         </>
       ) : (
-        <main className="grid px-5 items-center min-h-screen">
-          <div className="space-y-7">
-            <CakeIcon className="w-10 mx-auto" strokeWidth={1} />
-            <div className="max-w-xs text-center text-lg mx-auto">
-              Biscot is a minimal alternative to Trello for people who use it for personal stuff.
+        <>
+          <Header />
+          <main className="grid px-5 items-center py-10 min-h-[calc(100vh-4rem)]">
+            <div className="space-y-6">
+              <CakeIcon className="w-9 mx-auto" strokeWidth={1} />
+              <div className="max-w-xs text-center text-lg mx-auto">
+                Biscot is a minimal alternative to Trello for people who use it for personal stuff.
+              </div>
+              <a
+                className="text-center p-5 mx-auto border-border bg-neutral-800 border rounded-lg w-80 max-w-full 
+            font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight">
+                <GoogleIcon />
+                <div>Continue with Google</div>
+              </a>
             </div>
-            <a className="cursor-pointer text-center p-5 mx-auto border-border bg-neutral-800 border rounded-lg w-80 max-w-full font-bold items-center flex justify-center space-x-3 hover:border-borderLight">
-              <GoogleIcon />
-              <div>Continue with Google</div>
-            </a>
-          </div>
-        </main>
+          </main>
+        </>
       )}
     </>
   );

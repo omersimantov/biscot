@@ -1,21 +1,17 @@
 import { Toast } from "@/components/Toast";
+import type { Card as TCard } from "@/lib/types/Card";
+import type { List as TList } from "@/lib/types/List";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
 import cuid from "cuid";
 import { useRef, useState } from "react";
 import { Card } from "./Card";
 
-export type List = {
-  id: string;
-  index: number;
-  title: string;
-  userId: string;
-  cards: Card[];
-};
-
-export const List = (list: List): JSX.Element => {
+export const List = (list: TList): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
-  const [cards, setCards] = useState<Card[]>(list.cards);
+  const [cards, setCards] = useState<TCard[]>(list.cards);
   const endRef = useRef<HTMLDivElement>(null);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>(list.title);
 
   const remove = async (): Promise<void> => {
     setShow(false);
@@ -33,6 +29,15 @@ export const List = (list: List): JSX.Element => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(list)
+    });
+  };
+
+  const updateTitle = async (): Promise<void> => {
+    setEditMode(false);
+    await fetch("/api/list", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: list.id, title })
     });
   };
 
@@ -59,25 +64,35 @@ export const List = (list: List): JSX.Element => {
   };
 
   return show ? (
-    <div className="px-10 group min-w-fit overflow-auto overscroll-y-none">
-      <div className="flex justify-between cursor-pointer bg-bg h-14 items-start">
-        <h1 className="text-lg font-bold">{list.title}</h1>
-        <EllipsisHorizontalIcon
-          className="w-7 text-neutral-500 hover:text-white ml-3 group-hover:block hidden"
-          strokeWidth={1}
-          onClick={remove}
-        />
+    <div className="px-10 group min-w-fit !overflow-auto overscroll-y-none border-0">
+      <div className="bg-bg h-14 text-lg font-bold w-72">
+        <div className="flex justify-between cursor-pointer items-center">
+          {editMode ? (
+            <form onBlur={updateTitle} onSubmit={updateTitle}>
+              <input
+                type="text"
+                value={title}
+                className="border-0 bg-bg text-lg rounded-none"
+                onChange={(e): void => setTitle(e.target.value)}
+                autoFocus
+              />
+            </form>
+          ) : (
+            <h1 className="text-lg font-bold w-full" onClick={(): void => setEditMode(true)}>
+              {title}
+            </h1>
+          )}
+          <div className="min-w-fit">
+            <EllipsisHorizontalIcon
+              className="w-7 min-h-full text-neutral-500 hover:text-white ml-3 group-hover:visible invisible"
+              strokeWidth={1}
+              onClick={remove}
+            />
+          </div>
+        </div>
       </div>
       {cards.map((card) => (
-        <Card
-          key={card.id}
-          id={card.id}
-          createdAt={card.createdAt}
-          index={card.index}
-          listId={card.listId}
-          title={card.title}
-          description={card.description}
-        />
+        <Card key={card.id} {...card} />
       ))}
       <div
         ref={endRef}
