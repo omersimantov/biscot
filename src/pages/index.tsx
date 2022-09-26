@@ -2,7 +2,7 @@ import { GoogleIcon } from "@/components/GoogleIcon";
 import { Header } from "@/components/Header";
 import { List } from "@/components/List";
 import { ListSkeleton } from "@/components/ListSkeleton";
-import type { List as TList } from "@/lib/types/List";
+import { List as TList } from "@/lib/prisma/client";
 import { CakeIcon } from "@heroicons/react/24/outline";
 import classNames from "classnames";
 import cuid from "cuid";
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
     const id = cuid();
     const newList = {
       id,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
       index: lists ? lists.length : 0,
       title: "New List",
       cards: [],

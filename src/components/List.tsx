@@ -1,7 +1,7 @@
 import { Toast } from "@/components/Toast";
-import type { Card as TCard } from "@/lib/types/Card";
-import type { List as TList } from "@/lib/types/List";
+import { List as TList } from "@/lib/prisma/client";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import type { Card as TCard } from "@prisma/client";
 import cuid from "cuid";
 import { useRef, useState } from "react";
 import { Card } from "./Card";
@@ -45,7 +45,7 @@ export const List = (list: TList): JSX.Element => {
     const id = cuid();
     const newCard = {
       id,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
       index: cards.length,
       title: "New Card",
       description: "",

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma/client";
+import type { Card } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -21,7 +22,12 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         data: {
           index: req.body.index,
           title: req.body.title.trim(),
-          // cards: req.body.cards, // TODO: fix
+          // FIXME
+          cards: {
+            create: req.body.cards.map((card: Card) => ({
+              ...card
+            }))
+          },
           userId: req.body.userId
         }
       });

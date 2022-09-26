@@ -1,6 +1,6 @@
 import { Modal } from "@/components/Modal";
-import type { Card as TCard } from "@/lib/types/Card";
 import { Bars3BottomLeftIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import type { Card as TCard } from "@prisma/client";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import { Toast } from "./Toast";
 
@@ -70,7 +70,7 @@ export const Card = (card: TCard): JSX.Element => {
     };
   }, [keyPress, modalOpen]);
 
-  const getFormattedDate = (d: string): string => {
+  const getFormattedDate = (d: Date): string => {
     const date = new Date(d);
     const today = new Date();
 

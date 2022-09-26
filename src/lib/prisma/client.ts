@@ -1,9 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 
 declare global {
   // eslint-disable-next-line no-var
   var prisma: PrismaClient | undefined;
 }
+
+export type List = Prisma.ListGetPayload<{
+  include: {
+    cards: true;
+  };
+}>;
 
 export const prisma =
   global.prisma ||
