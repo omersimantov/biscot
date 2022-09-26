@@ -51,56 +51,52 @@ const Home: NextPage = () => {
 
   return (
     <>
+      <Header />
       {session ? (
-        <>
-          <Header />
-          <main
-            className={classNames(
-              "py-10 flex divide-x-[1px] divide-neutral-700 h-[calc(100vh-4rem)] overflow-auto overscroll-x-none",
-              !lists && "overflow-hidden"
-            )}>
-            {lists ? (
-              <>
-                {lists.map((list) => (
-                  <List key={list.id} {...list} />
-                ))}
-                <div ref={endRef} className="px-10 min-h-full min-w-fit">
-                  <div
-                    className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
-                    onClick={addList}>
-                    + Add
-                  </div>
+        <main
+          className={classNames(
+            "py-10 flex h-[calc(100vh-4rem)] overflow-auto overscroll-x-none",
+            lists && "divide-x-[1px] divide-neutral-700",
+            !lists && "overflow-hidden"
+          )}>
+          {lists ? (
+            <>
+              {lists.map((list) => (
+                <List key={list.id} {...list} />
+              ))}
+              <div ref={endRef} className="px-10 min-h-full min-w-fit">
+                <div
+                  className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
+                  onClick={addList}>
+                  + Add
                 </div>
-              </>
-            ) : (
-              <div className="flex mr-20 divide-x-[1px] divide-neutral-700 min-w-fit">
-                {Array(100)
-                  .fill(true)
-                  .map((_, i) => (
-                    <ListSkeleton key={i} />
-                  ))}
               </div>
-            )}
-          </main>
-        </>
-      ) : (
-        <>
-          <Header />
-          <main className="grid px-5 items-center py-10 min-h-[calc(100vh-4rem)]">
-            <div className="space-y-6">
-              <CakeIcon className="w-9 mx-auto" strokeWidth={1} />
-              <div className="max-w-xs text-center text-lg mx-auto">
-                Biscot is a minimal alternative to Trello for people who use it for personal stuff.
-              </div>
-              <a
-                className="text-center p-5 mx-auto border-border bg-neutral-800 border rounded-lg w-80 max-w-full 
-            font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight">
-                <GoogleIcon />
-                <div>Continue with Google</div>
-              </a>
+            </>
+          ) : (
+            <div className="flex mr-20 divide-x-[1px] divide-neutral-700 min-w-fit">
+              {Array(100)
+                .fill(true)
+                .map((_, i) => (
+                  <ListSkeleton key={i} />
+                ))}
             </div>
-          </main>
-        </>
+          )}
+        </main>
+      ) : (
+        <main className="grid px-5 items-center py-10 min-h-[calc(100vh-4rem)]">
+          <div className="space-y-6">
+            <CakeIcon className="w-9 mx-auto" strokeWidth={1} />
+            <div className="max-w-xs text-center text-lg mx-auto">
+              Biscot is a minimal alternative to Trello for people who use it for personal stuff.
+            </div>
+            <a
+              className="text-center p-5 mx-auto border-border bg-neutral-800 border rounded-lg w-80 max-w-full 
+            font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight">
+              <GoogleIcon />
+              <div>Continue with Google</div>
+            </a>
+          </div>
+        </main>
       )}
     </>
   );
