@@ -4,15 +4,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   if (req.method === "POST") {
     try {
-      const list = await prisma.card.create({
+      const card = await prisma.card.create({
         data: {
-          id: req.body.id,
           index: req.body.index,
           title: req.body.title.trim(),
+          description: req.body.description.trim(),
           listId: req.body.listId
         }
       });
-      return res.status(201).json(list);
+      return res.status(201).json(card);
     } catch (error) {
       return res.status(500).json({ error });
     }

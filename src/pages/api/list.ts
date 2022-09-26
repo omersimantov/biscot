@@ -6,7 +6,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     try {
       const lists = await prisma.list.findMany({
         where: { userId: req.body.userId },
-        include: { cards: true }
+        orderBy: [{ index: "asc" }],
+        include: { cards: { orderBy: { index: "asc" } } }
       });
       return res.status(200).json(lists);
     } catch (error) {
@@ -18,13 +19,25 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     try {
       const list = await prisma.list.create({
         data: {
-          id: req.body.id,
           index: req.body.index,
           title: req.body.title.trim(),
+          // cards: req.body.cards, // TODO: fix
           userId: req.body.userId
         }
       });
       return res.status(201).json(list);
+    } catch (error) {
+      return res.status(500).json({ error });
+    }
+  }
+
+  if (req.method === "PATCH") {
+    try {
+      await prisma.list.update({
+        where: { id: req.body.id },
+        data: { title: req.body.title.trim() }
+      });
+      res.status(200).end();
     } catch (error) {
       return res.status(500).json({ error });
     }
