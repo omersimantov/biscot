@@ -63,6 +63,7 @@ model List {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   cards     Card[]
 
+  @@unique([userId, index])
   @@index([index])
 }
 
@@ -75,5 +76,6 @@ model Card {
   listId      String
   list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
 
+  @@unique([listId, index])
   @@index([index])
 }
