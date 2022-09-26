@@ -8,12 +8,27 @@
   }
 
   html {
-    @apply overflow-hidden antialiased bg-bg text-white overscroll-none;
+    @apply overflow-hidden antialiased bg-bg text-white overscroll-none leading-7;
   }
 
-  [type="text"],
-  textarea {
+  [type="text"] {
     @apply leading-6 bg-neutral-800 w-full p-0 focus:ring-transparent resize-none overflow-hidden text-sm block border border-border focus:border-borderLight rounded-lg placeholder:text-neutral-500;
+  }
+
+  hr {
+    @apply my-10 h-0.5 border-0 bg-border;
+  }
+
+  b {
+    @apply font-bold;
+  }
+
+  a {
+    @apply underline w-fit cursor-pointer;
+  }
+
+  a[target="_blank"] {
+    @apply cursor-ne-resize;
   }
 }
 

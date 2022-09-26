@@ -33,7 +33,7 @@ export const Modal = ({ toggle, content }: { content: JSX.Element; toggle: Mouse
         className="hidden md:block w-7 cursor-pointer text-neutral-500 hover:text-white md:fixed top-0 right-0 m-10"
         onClick={toggle}
       />
-      <div className="overscroll-none p-5 sm:p-10 border-border md:h-fit max-h-screen h-screen md:border bg-bg md:rounded-lg w-full md:max-w-xl cursor-auto overflow-auto z-50">
+      <div className="md:my-10 overscroll-none p-5 sm:p-10 border-border md:h-fit md:max-h-[calc(100vh-5rem)] h-screen md:border bg-bg md:rounded-lg w-full md:max-w-xl cursor-auto overflow-auto">
         <div className="flex justify-end md:hidden">
           <XMarkIcon className="w-7 cursor-pointer text-neutral-500 hover:text-white" onClick={toggle} />
         </div>

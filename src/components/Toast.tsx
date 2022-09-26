@@ -7,7 +7,7 @@ import { useState } from "react";
 export const Toast = ({ action }: { action: () => void }): JSX.Element => {
   const [open, setOpen] = useState<boolean>(true);
 
-  return (
+  return open ? (
     <ToastPrimitive.Provider>
       <ToastPrimitive.Root
         open={open}
@@ -39,5 +39,8 @@ export const Toast = ({ action }: { action: () => void }): JSX.Element => {
       </ToastPrimitive.Root>
       <ToastPrimitive.Viewport />
     </ToastPrimitive.Provider>
+  ) : (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <></>
   );
 };
