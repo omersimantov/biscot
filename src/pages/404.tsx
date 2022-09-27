@@ -6,7 +6,7 @@ const Custom404: NextPage = () => {
     <>
       <SEO title="404" noindex nofollow />
       <main className="grid items-center text-center min-h-screen">
-        <h1 className="font-bold text-2xl">404</h1>
+        <h1 className="font-bold text-xl">404</h1>
       </main>
     </>
   );
