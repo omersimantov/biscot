@@ -5,12 +5,11 @@ import { ListSkeleton } from "@/components/ListSkeleton";
 import { List as TList } from "@/lib/prisma/client";
 import { CakeIcon } from "@heroicons/react/24/outline";
 import classNames from "classnames";
-import cuid from "cuid";
-import type { NextPage } from "next";
+import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
+import { getSession, signIn } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
-const Home: NextPage = () => {
-  const [lists, setLists] = useState<TList[]>();
+const Home: NextPage<{ uid: string }> = ({ uid }) => {
   const endRef = useRef<HTMLDivElement>(null);
 
   // TODO: Get from session
@@ -52,7 +51,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Header />
-      {session ? (
+      {uid ? (
         <main
           className={classNames(
             "py-10 flex h-[calc(100vh-4rem)] overflow-auto overscroll-x-none",
@@ -103,3 +102,10 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const session = await getSession(ctx);
+  if (!session) return { props: {} };
+  const uid = session.user.id;
+  return { props: { uid } };
+};

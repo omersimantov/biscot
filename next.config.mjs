@@ -14,7 +14,7 @@ export default {
     return [
       {
         // Attempt to mitigate DDoS attacks
-        source: "/api/auth/:path*", // TODO: Edit? Based on auth implementation
+        source: "/api/auth/:path*",
         has: [
           {
             type: "query",
