@@ -47,7 +47,7 @@ export const Card = (card: TCard): JSX.Element => {
   const toggleModal = (e: FormEvent): void => {
     if (!editMode) {
       setModalOpen((modalOpen) => !modalOpen);
-      if (modalOpen) updateCard(e);
+      modalOpen && updateCard(e);
     }
   };
 
@@ -91,7 +91,7 @@ export const Card = (card: TCard): JSX.Element => {
 
   const modalContent = (
     <div className="w-full">
-      <form className="block space-y-3 p-0 m-0 max-h-fit" onBlur={updateCard} onSubmit={updateCard}>
+      <form className="space-y-3" onBlur={updateCard} onSubmit={updateCard}>
         <input
           placeholder="Title"
           value={title}
@@ -105,9 +105,8 @@ export const Card = (card: TCard): JSX.Element => {
         <textarea
           placeholder="Description"
           className="p-4"
-          wrap="off"
           value={description}
-          rows={10}
+          rows={15}
           autoFocus
           onChange={(v): void => setDescription(v.target.value)}
           onFocus={(v): void => {
@@ -116,7 +115,6 @@ export const Card = (card: TCard): JSX.Element => {
             v.target.value = val;
           }}
         />
-        {/* <ReactQuill theme="snow" value={description} onChange={(v): void => setDescription(v)} /> */}
       </form>
       <div className="flex items-end justify-between h-14">
         <div className="text-sm font-medium">Created {getFormattedDate(card.createdAt)}</div>
@@ -139,7 +137,7 @@ export const Card = (card: TCard): JSX.Element => {
         font-medium hover:border-borderLight items-center flex justify-between space-x-3 mb-3 text-sm"
         onClick={(e): false | void => !editMode && toggleModal(e)}>
         {editMode ? (
-          <form onBlur={updateCard} onSubmit={updateCard} className="w-full p-0 m-0 max-h-min">
+          <form onSubmit={updateCard} className="w-full">
             <input
               type="text"
               value={title}
@@ -154,7 +152,6 @@ export const Card = (card: TCard): JSX.Element => {
                 if (e.key === "Enter") updateCard(e);
               }}
               autoFocus
-              spellCheck={true}
             />
           </form>
         ) : (
