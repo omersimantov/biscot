@@ -34,7 +34,7 @@ export const Card = (card: TCard): JSX.Element => {
     e.preventDefault();
     setEditMode(false);
     setTitle(title.trim());
-    setDescription(description.trim());
+    setDescription(description);
     if (title === "") setTitle(card.title);
     const { id } = card;
     await fetch("/api/card", {
