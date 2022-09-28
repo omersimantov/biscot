@@ -68,7 +68,7 @@ export const Card = (card: TCard): JSX.Element => {
     return (): void => {
       document.removeEventListener("keydown", keyPress);
     };
-  }, [keyPress, modalOpen]);
+  }, [keyPress]);
 
   const getFormattedDate = (d: Date): string => {
     const date = new Date(d);
