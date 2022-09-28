@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma/client";
-import type { Card } from "@prisma/client";
+import { Card } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -17,18 +17,17 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   }
 
   if (req.method === "POST") {
+    const cards = req.body.cards.map((card: Card) => card);
     try {
       const list = await prisma.list.create({
         data: {
           index: req.body.index,
           title: req.body.title.trim(),
-          // FIXME
-          cards: {
-            create: req.body.cards.map((card: Card) => ({
-              ...card
-            }))
-          },
+          cards: { createMany: { data: cards } }, // FIXME
           userId: req.body.userId
+        },
+        include: {
+          cards: true
         }
       });
       return res.status(201).json(list);
