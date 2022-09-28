@@ -12,7 +12,7 @@ import { getSession, signIn } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 
 const Home: NextPage<{ uid: string }> = ({ uid }) => {
-  const [lists, setLists] = useState<TList[]>([]);
+  const [lists, setLists] = useState<TList[]>();
   const [signingIn, setSigningIn] = useState<boolean>(false);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -27,9 +27,8 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   };
 
   const addList = async (): Promise<void> => {
-    const id = cuid();
     const newList = {
-      id,
+      id: cuid(),
       createdAt: new Date(),
       index: lists ? lists.length : 0,
       title: "New List",
