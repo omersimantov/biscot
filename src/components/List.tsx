@@ -49,10 +49,11 @@ export const List = (list: TList): JSX.Element => {
   };
 
   const addCard = async (): Promise<void> => {
+    const lastIndex = cards[cards.length - 1]?.index;
     const newCard = {
       id: cuid(),
       createdAt: new Date(),
-      index: cards.length,
+      index: lastIndex ? lastIndex + 1024 : 65535,
       title: "New Card",
       description: "",
       listId: list.id

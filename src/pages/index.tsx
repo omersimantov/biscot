@@ -17,7 +17,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect((): void => {
-    fetchLists();
+    uid && fetchLists();
   }, []);
 
   const fetchLists = async (): Promise<void> => {
@@ -27,10 +27,11 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   };
 
   const addList = async (): Promise<void> => {
+    const lastIndex = lists && lists[lists.length - 1]?.index;
     const newList = {
       id: cuid(),
       createdAt: new Date(),
-      index: lists ? lists.length : 0,
+      index: lastIndex ? lastIndex + 1024 : 65535,
       title: "New List",
       cards: [],
       userId: uid
