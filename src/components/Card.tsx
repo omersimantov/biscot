@@ -1,7 +1,8 @@
 import { Modal } from "@/components/Modal";
+import { useClickOutside } from "@/lib/hooks/useClickOutside";
 import { Bars3BottomLeftIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import type { Card as TCard } from "@prisma/client";
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Toast } from "./Toast";
 
 export const Card = (card: TCard): JSX.Element => {
@@ -10,6 +11,11 @@ export const Card = (card: TCard): JSX.Element => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [title, setTitle] = useState<string>(card.title);
   const [description, setDescription] = useState<string>(card.description ?? "");
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useClickOutside((e: FormEvent<Element>): void => {
+    if (formRef.current && !formRef.current.contains(e.currentTarget)) updateCard(e);
+  });
 
   const remove = async (): Promise<void> => {
     setShow(false);
@@ -91,7 +97,7 @@ export const Card = (card: TCard): JSX.Element => {
 
   const modalContent = (
     <div className="w-full">
-      <form className="space-y-3" onBlur={updateCard} onSubmit={updateCard}>
+      <form className="space-y-3" onSubmit={updateCard} ref={formRef}>
         <input
           placeholder="Title"
           value={title}
@@ -137,7 +143,7 @@ export const Card = (card: TCard): JSX.Element => {
         font-medium hover:border-borderLight items-center flex justify-between space-x-3 mb-3 text-sm"
         onClick={(e): false | void => !editMode && toggleModal(e)}>
         {editMode ? (
-          <form onSubmit={updateCard} className="w-full">
+          <form onSubmit={updateCard} className="w-full" ref={formRef}>
             <input
               type="text"
               value={title}
@@ -159,7 +165,11 @@ export const Card = (card: TCard): JSX.Element => {
         )}
         <div className="flex space-x-3 items-center min-w-fit">
           {description && (
-            <Bars3BottomLeftIcon className="w-[1.35rem] text-white" strokeWidth={1} onClick={toggleModal} />
+            <Bars3BottomLeftIcon
+              className="w-[1.35rem] text-white pointer-events-none"
+              strokeWidth={1}
+              onClick={toggleModal}
+            />
           )}
           {editMode ? (
             <TrashIcon
@@ -172,7 +182,7 @@ export const Card = (card: TCard): JSX.Element => {
             />
           ) : (
             <PencilIcon
-              className="w-4 text-neutral-500 hover:text-white"
+              className="w-[1.1rem] text-neutral-500 hover:text-white"
               strokeWidth={1}
               onClick={(e): void => {
                 e.stopPropagation();

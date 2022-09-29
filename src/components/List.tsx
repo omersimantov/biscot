@@ -1,17 +1,23 @@
+import { Card } from "@/components/Card";
 import { Toast } from "@/components/Toast";
+import { useClickOutside } from "@/lib/hooks/useClickOutside";
 import { List as TList } from "@/lib/prisma/client";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import type { Card as TCard } from "@prisma/client";
 import cuid from "cuid";
-import { useRef, useState } from "react";
-import { Card } from "./Card";
+import { FormEvent, useRef, useState } from "react";
 
 export const List = (list: TList): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
   const [cards, setCards] = useState<TCard[]>(list.cards);
   const endRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [title, setTitle] = useState<string>(list.title);
+
+  useClickOutside((e: FormEvent<Element>): void => {
+    if (formRef.current && !formRef.current.contains(e.currentTarget)) updateTitle();
+  });
 
   const remove = async (): Promise<void> => {
     setShow(false);
@@ -25,6 +31,7 @@ export const List = (list: TList): JSX.Element => {
 
   const undo = async (): Promise<void> => {
     setShow(true);
+    setEditMode(false);
     await fetch("/api/list", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -42,9 +49,8 @@ export const List = (list: TList): JSX.Element => {
   };
 
   const addCard = async (): Promise<void> => {
-    const id = cuid();
     const newCard = {
-      id,
+      id: cuid(),
       createdAt: new Date(),
       index: cards.length,
       title: "New Card",
@@ -52,6 +58,7 @@ export const List = (list: TList): JSX.Element => {
       listId: list.id
     };
     setCards([...cards, newCard]);
+
     // Unclear why the setTimeout is necessary, but it is
     setTimeout(() => {
       endRef.current && endRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
@@ -62,13 +69,12 @@ export const List = (list: TList): JSX.Element => {
       body: JSON.stringify(newCard)
     });
   };
-
   return show ? (
-    <div className="px-10 group min-w-fit !overflow-auto overscroll-y-none border-0">
+    <div className="px-10 group min-w-fit overscroll-y-none border-0 overflow-auto">
       <div className="bg-bg h-14 text-lg font-bold w-72">
         <div className="flex justify-between cursor-pointer items-center">
           {editMode ? (
-            <form onBlur={updateTitle} onSubmit={updateTitle}>
+            <form onSubmit={updateTitle} ref={formRef}>
               <input
                 type="text"
                 value={title}
@@ -78,21 +84,40 @@ export const List = (list: TList): JSX.Element => {
               />
             </form>
           ) : (
-            <h1 className="text-lg font-bold w-full" onClick={(): void => setEditMode(true)}>
+            <h1
+              className="text-lg font-bold w-full"
+              onClick={(e): void => {
+                e.stopPropagation();
+                setEditMode(true);
+              }}>
               {title}
             </h1>
           )}
           <div className="min-w-fit">
-            <EllipsisHorizontalIcon
-              className="w-7 min-h-full text-neutral-500 hover:text-white ml-3 group-hover:visible invisible"
-              strokeWidth={1}
-              onClick={remove}
-            />
+            {editMode ? (
+              <TrashIcon
+                className="w-[1.35rem] h-full text-neutral-500 hover:text-white"
+                strokeWidth={1}
+                onClick={(e): void => {
+                  e.stopPropagation();
+                  remove();
+                }}
+              />
+            ) : (
+              <PencilIcon
+                className="w-[1.2rem] min-h-full text-neutral-500 hover:text-white ml-3 group-hover:visible invisible"
+                strokeWidth={1}
+                onClick={(e): void => {
+                  e.stopPropagation();
+                  setEditMode(true);
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
-      {cards.map((card) => (
-        <Card key={card.id} {...card} />
+      {cards.map((card: TCard) => (
+        <Card key={card.index} {...card} />
       ))}
       <div
         ref={endRef}
