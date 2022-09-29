@@ -5,23 +5,23 @@ import { NextPage } from "next";
 import { signOut } from "next-auth/react";
 import { useEffect } from "react";
 
-const Logout: NextPage = () => {
+const Signout: NextPage = () => {
   useEffect(() => {
     signOut({ callbackUrl: "/" });
   }, []);
 
   return (
     <>
-      <SEO title="Log Out" noindex nofollow />
+      <SEO title="Sign Out" noindex nofollow />
       <Header />
       <main className="flex items-center min-h-[calc(100vh-4rem)] justify-center">
         <div className="max-w-sm space-y-6">
           <Spinner />
-          <div className="text-base font-medium">Logging you out...</div>
+          <div className="font-medium">Signing you out...</div>
         </div>
       </main>
     </>
   );
 };
 
-export default Logout;
+export default Signout;
