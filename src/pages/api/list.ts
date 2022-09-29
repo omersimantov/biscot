@@ -17,7 +17,6 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
   }
 
   if (req.method === "POST") {
-    const cards = req.body.cards.map((card: Card) => card);
     try {
       const list = await prisma.list.create({
         data: {
@@ -25,13 +24,13 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
           createdAt: req.body.createdAt,
           index: req.body.index,
           title: req.body.title.trim(),
-          cards: { createMany: { data: cards } }, // FIXME
           userId: req.body.userId
         },
-        include: {
-          cards: true
-        }
+        include: { cards: true }
       });
+      const cards = req.body.cards.map((card: Card) => card);
+      await prisma.card.createMany({ data: cards });
+      list.cards = cards;
       return res.status(201).json(list);
     } catch (error) {
       return res.status(500).json({ error });
