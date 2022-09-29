@@ -3,7 +3,6 @@ import * as ToastPrimitive from "@radix-ui/react-toast";
 import cx from "classnames";
 import { useState } from "react";
 
-// TODO: Stack up toasts
 export const Toast = ({ action }: { action: () => void }): JSX.Element => {
   const [open, setOpen] = useState<boolean>(true);
 

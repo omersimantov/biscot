@@ -1,12 +1,8 @@
-import { Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 import type { AppType } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
 
-// TODO: T3 Monorepo, PWA, animations
-
-const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
+const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
@@ -19,9 +15,7 @@ const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { s
           content="Biscot is a minimal alternative to Trello for people who use it for personal stuff"
         />
       </Head>
-      <SessionProvider session={session}>
-        <Component {...pageProps} options={{ gestureEnabled: false }} />
-      </SessionProvider>
+      <Component {...pageProps} options={{ gestureEnabled: false }} />
     </>
   );
 };
