@@ -22,7 +22,7 @@ export const Toast = ({ action }: { action: () => void }): JSX.Element => {
           "radix-swipe-cancel:translate-x-0 radix-swipe-cancel:duration-200 radix-swipe-cancel:ease-[ease]"
         )}>
         <div className="flex items-center justify-between px-4 h-14">
-          <ToastPrimitive.Title className="font-medium">Removed.</ToastPrimitive.Title>
+          <ToastPrimitive.Title className="font-medium">Removed</ToastPrimitive.Title>
           <div className="flex items-center space-x-1">
             <ToastPrimitive.Action
               altText="Undo"

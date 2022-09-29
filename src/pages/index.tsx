@@ -2,9 +2,9 @@ import { GoogleIcon } from "@/components/GoogleIcon";
 import { Header } from "@/components/Header";
 import { List } from "@/components/List";
 import { ListSkeleton } from "@/components/ListSkeleton";
+import { Logo } from "@/components/Logo";
 import { Spinner } from "@/components/Spinner";
 import type { List as TList } from "@/lib/prisma/client";
-import { CakeIcon } from "@heroicons/react/24/outline";
 import classNames from "classnames";
 import cuid from "cuid";
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
@@ -83,7 +83,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       ) : (
         <main className="grid px-5 items-center py-10 min-h-[calc(100vh-4rem)]">
           <div className="space-y-6 w-80 mx-auto">
-            <CakeIcon className="w-10 mx-auto" strokeWidth={1} />
+            <Logo className="w-10" />
             <div className="text-center text-lg">
               Biscot is a minimal alternative to Trello for people who use it for personal stuff.
             </div>
