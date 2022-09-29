@@ -10,9 +10,7 @@
     "clean": "rm -rf node_modules && rm -rf .next",
     "format": "prettier . --ignore-unknown --write",
     "typecheck": "tsc --pretty --noEmit",
-    "prepare": "husky install",
     "predev": "dotenv-checker --schema .env.example --env .env",
-    "precommit": "lint-staged",
     "postinstall": "prisma generate && prisma format"
   },
   "dependencies": {
@@ -34,8 +32,6 @@
     "zod": "^3.18.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.1.2",
-    "@commitlint/config-conventional": "^17.1.0",
     "@tailwindcss/forms": "^0.5.2",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
@@ -51,18 +47,11 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "husky": "^8.0.1",
-    "lint-staged": "^13.0.3",
     "postcss": "^8.4.16",
     "prisma": "^4.4.0",
     "tailwind-scrollbar": "^2.0.1",
     "tailwindcss": "^3.1.8",
     "typescript": "4.7.4"
-  },
-  "lint-staged": {
-    "*": "prettier --ignore-unknown --write",
-    "schema.prisma": "yarn prisma format",
-    "*.{ts,tsx,js,jsx}": "eslint --fix --max-warnings=0"
   },
   "prisma": {
     "schema": "src/lib/prisma/schema.prisma"
