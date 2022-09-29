@@ -59,7 +59,6 @@ export const List = (list: TList): JSX.Element => {
       listId: list.id
     };
     setCards([...cards, newCard]);
-
     // Unclear why the setTimeout is necessary, but it is
     setTimeout(() => {
       endRef.current && endRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
@@ -70,6 +69,7 @@ export const List = (list: TList): JSX.Element => {
       body: JSON.stringify(newCard)
     });
   };
+
   return show ? (
     <div className="px-10 group min-w-fit overscroll-y-none border-0 overflow-auto">
       <div className="bg-bg h-14 text-lg font-bold w-72">

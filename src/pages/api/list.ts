@@ -21,6 +21,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     try {
       const list = await prisma.list.create({
         data: {
+          id: req.body.id,
+          createdAt: req.body.createdAt,
           index: req.body.index,
           title: req.body.title.trim(),
           cards: { createMany: { data: cards } }, // FIXME

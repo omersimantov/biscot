@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 
 const Home: NextPage<{ uid: string }> = ({ uid }) => {
   const [lists, setLists] = useState<TList[]>();
-  const [signingIn, setSigningIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect((): void => {
@@ -21,9 +21,11 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   }, []);
 
   const fetchLists = async (): Promise<void> => {
+    setLoading(true);
     const res = await fetch("/api/list");
     const data = await res.json();
     setLists(data);
+    setLoading(false);
   };
 
   const addList = async (): Promise<void> => {
@@ -56,22 +58,9 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
           className={classNames(
             "py-10 flex h-[calc(100vh-4rem)] overflow-auto overscroll-x-none",
             lists && "divide-x-[1px] divide-neutral-700",
-            !lists && "overflow-hidden"
+            loading && "overflow-hidden"
           )}>
-          {lists ? (
-            <>
-              {lists.map((list) => (
-                <List key={list.index} {...list} />
-              ))}
-              <div ref={endRef} className="px-10 min-h-full min-w-fit">
-                <div
-                  className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
-                  onClick={addList}>
-                  + Add
-                </div>
-              </div>
-            </>
-          ) : (
+          {loading ? (
             <div className="flex mr-20 divide-x-[1px] divide-neutral-700 min-w-fit">
               {Array(100)
                 .fill(true)
@@ -79,6 +68,21 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
                   <ListSkeleton key={i} />
                 ))}
             </div>
+          ) : (
+            lists && (
+              <>
+                {lists.map((list) => (
+                  <List key={list.index} {...list} />
+                ))}
+                <div ref={endRef} className="px-10 min-h-full min-w-fit">
+                  <div
+                    className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
+                    onClick={addList}>
+                    + Add
+                  </div>
+                </div>
+              </>
+            )
           )}
         </main>
       ) : (
@@ -89,16 +93,16 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
               Biscot is a minimal alternative to Trello for people who use it for personal stuff.
             </div>
             <button
-              disabled={signingIn}
+              disabled={loading}
               onClick={(): void => {
-                setSigningIn(true);
+                setLoading(true);
                 signIn("google");
               }}
               className={classNames(
                 "h-[4.5rem] border-border bg-neutral-800 border rounded-lg w-full font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight",
-                signingIn && "cursor-not-allowed hover:border-border"
+                loading && "cursor-not-allowed hover:border-border"
               )}>
-              {signingIn ? (
+              {loading ? (
                 <Spinner />
               ) : (
                 <>
