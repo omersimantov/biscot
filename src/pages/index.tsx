@@ -1,5 +1,4 @@
 import { GoogleIcon } from "@/components/GoogleIcon";
-import { Header } from "@/components/Header";
 import { List } from "@/components/List";
 import { ListSkeleton } from "@/components/ListSkeleton";
 import { Logo } from "@/components/Logo";
@@ -78,11 +77,10 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
 
   return (
     <>
-      <Header />
       {uid ? (
-        <main
+        <div
           className={classNames(
-            "py-10 flex h-[calc(100vh-4rem)] !overflow-x-auto overscroll-x-none",
+            "!overflow-x-auto overscroll-none min-w-full -mx-5 -my-10 py-10 flex h-[calc(100vh-4rem)]",
             lists && "divide-x-[1px] divide-neutral-700",
             !lists && "!overflow-x-hidden"
           )}>
@@ -108,32 +106,30 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
                 ))}
             </div>
           )}
-        </main>
+        </div>
       ) : (
-        <main className="flex px-5 justify-center items-center py-10 min-h-[calc(100vh-4rem)]">
-          <div className="space-y-6 w-80 max-w-sm">
-            <Logo className="w-10" />
-            <button
-              disabled={loading}
-              onClick={(): void => {
-                setLoading(true);
-                signIn("google");
-              }}
-              className={classNames(
-                "h-[4.5rem] px-5 border-border bg-neutral-800 border w-full rounded-lg font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight",
-                loading && "cursor-not-allowed hover:border-border"
-              )}>
-              {loading ? (
-                <Spinner />
-              ) : (
-                <>
-                  <GoogleIcon />
-                  <div className="whitespace-nowrap">Continue with Google</div>
-                </>
-              )}
-            </button>
-          </div>
-        </main>
+        <div className="space-y-6 w-80 max-w-sm">
+          <Logo className="w-10" />
+          <button
+            disabled={loading}
+            onClick={(): void => {
+              setLoading(true);
+              signIn("google");
+            }}
+            className={classNames(
+              "h-[4.5rem] px-5 border-border bg-neutral-800 border w-full rounded-lg font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight",
+              loading && "cursor-not-allowed hover:border-border"
+            )}>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                <GoogleIcon />
+                <div className="whitespace-nowrap">Continue with Google</div>
+              </>
+            )}
+          </button>
+        </div>
       )}
       <Toaster />
     </>

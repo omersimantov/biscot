@@ -1,3 +1,4 @@
+import { Layout } from "@/components/Layout";
 import type { AppType } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
@@ -15,7 +16,9 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           content="Biscot is a minimal alternative to Trello for people who use it for personal stuff"
         />
       </Head>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </>
   );
 };
