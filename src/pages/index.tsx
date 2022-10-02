@@ -71,7 +71,6 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       cards: [],
       userId: uid
     };
-
     return newList;
   };
 
