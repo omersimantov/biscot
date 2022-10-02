@@ -33,7 +33,8 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/",
-    signOut: "/signout"
+    signOut: "/signout",
+    error: "/error"
   },
   debug: process.env.NODE_ENV === "development"
 };
