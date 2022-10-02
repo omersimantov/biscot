@@ -4,12 +4,12 @@
 
 @layer base {
   * {
-    @apply select-none outline-none overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 hover:scrollbar-thumb-neutral-400 scrollbar-thumb-rounded;
+    @apply select-none outline-none !overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 hover:scrollbar-thumb-neutral-400 scrollbar-thumb-rounded;
     -webkit-tap-highlight-color: transparent;
   }
 
   html {
-    @apply overflow-x-hidden antialiased bg-bg text-white overscroll-none leading-7;
+    @apply antialiased bg-bg text-white leading-7 overscroll-y-none;
   }
 
   [type="text"],

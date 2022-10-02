@@ -1,11 +1,11 @@
 import { Card } from "@/components/Card";
-import { Toast } from "@/components/Toast";
 import { useClickOutside } from "@/lib/hooks/useClickOutside";
 import { List as TList } from "@/lib/prisma/client";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import type { Card as TCard } from "@prisma/client";
 import cuid from "cuid";
 import { FormEvent, useRef, useState } from "react";
+import { showToast } from "src/pages";
 
 export const List = (list: TList): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
@@ -22,6 +22,7 @@ export const List = (list: TList): JSX.Element => {
   const remove = async (): Promise<void> => {
     setShow(false);
     const { id } = list;
+    showToast(id, undo);
     await fetch("/api/list", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -71,7 +72,7 @@ export const List = (list: TList): JSX.Element => {
   };
 
   return show ? (
-    <div className="px-10 group min-w-fit overscroll-y-none border-0 overflow-auto">
+    <div className="px-10 group min-w-fit overscroll-y-none">
       <div className="bg-bg h-14 text-lg font-bold w-72">
         <div className="flex justify-between cursor-pointer items-center">
           {editMode ? (
@@ -128,6 +129,7 @@ export const List = (list: TList): JSX.Element => {
       </div>
     </div>
   ) : (
-    <Toast action={undo} />
+    // eslint-disable-next-line react/jsx-no-useless-fragment
+    <></>
   );
 };

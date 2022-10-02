@@ -5,49 +5,75 @@ import { ListSkeleton } from "@/components/ListSkeleton";
 import { Logo } from "@/components/Logo";
 import { Spinner } from "@/components/Spinner";
 import type { List as TList } from "@/lib/prisma/client";
-import classNames from "classnames";
+import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
+import { default as classNames } from "classnames";
 import cuid from "cuid";
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import { getSession, signIn } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import useSWR from "swr";
+
+export const showToast = (id: string, undo: () => void): void => {
+  toast.custom(
+    <div
+      className="rounded-lg p-4 border-border border cursor-pointer bg-neutral-900"
+      onClick={(): void => {
+        undo();
+        toast.remove(id);
+      }}>
+      <ArrowUturnLeftIcon className="w-4 text-white" strokeWidth={2} />
+    </div>,
+    {
+      position: "bottom-left",
+      duration: 5000,
+      id
+    }
+  );
+};
 
 const Home: NextPage<{ uid: string }> = ({ uid }) => {
-  const [lists, setLists] = useState<TList[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const endRef = useRef<HTMLDivElement>(null);
 
-  useEffect((): void => {
-    uid && fetchLists();
-  }, []);
-
-  const fetchLists = async (): Promise<void> => {
-    setLoading(true);
+  const fetchLists = async (): Promise<TList[]> => {
     const res = await fetch("/api/list");
     const data = await res.json();
-    setLists(data);
-    setLoading(false);
+    return data;
   };
 
+  const { data: lists, mutate } = useSWR<TList[]>("/api/list", fetchLists, { refreshInterval: 0 });
+
   const addList = async (): Promise<void> => {
+    const newList = getNewList();
+    // Unclear why the setTimeout is necessary, but it is
+    setTimeout((): void => {
+      endRef.current && endRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
+    });
+    const newListsArray = lists ? [...lists, newList] : [newList];
+    const addList = async (): Promise<TList[]> => {
+      await fetch("/api/list", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newList)
+      });
+      return newListsArray;
+    };
+    mutate(addList(), { optimisticData: newListsArray, rollbackOnError: true });
+  };
+
+  const getNewList = (): TList => {
     const lastIndex = lists && lists[lists.length - 1]?.index;
-    const newList = {
+    const newList: TList = {
       id: cuid(),
       createdAt: new Date(),
       index: lastIndex ? lastIndex + 1024 : 65535,
-      title: "New List",
+      title: "",
       cards: [],
       userId: uid
     };
-    lists ? setLists([...lists, newList]) : setLists([newList]);
-    // Unclear why the setTimeout is necessary, but it is
-    setTimeout(() => {
-      endRef.current && endRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
-    });
-    await fetch("/api/list", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newList)
-    });
+
+    return newList;
   };
 
   return (
@@ -56,11 +82,24 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       {uid ? (
         <main
           className={classNames(
-            "py-10 flex h-[calc(100vh-4rem)] overflow-auto overscroll-x-none",
+            "py-10 flex h-[calc(100vh-4rem)] !overflow-x-auto overscroll-x-none",
             lists && "divide-x-[1px] divide-neutral-700",
-            loading && "overflow-hidden"
+            !lists && "!overflow-x-hidden"
           )}>
-          {loading ? (
+          {lists ? (
+            <>
+              {lists.map((list) => (
+                <List key={list.index} {...list} />
+              ))}
+              <div ref={endRef} className="px-10 min-h-full min-w-fit">
+                <div
+                  className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
+                  onClick={addList}>
+                  + Add
+                </div>
+              </div>
+            </>
+          ) : (
             <div className="flex mr-20 divide-x-[1px] divide-neutral-700 min-w-fit">
               {Array(100)
                 .fill(true)
@@ -68,21 +107,6 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
                   <ListSkeleton key={i} />
                 ))}
             </div>
-          ) : (
-            lists && (
-              <>
-                {lists.map((list) => (
-                  <List key={list.index} {...list} />
-                ))}
-                <div ref={endRef} className="px-10 min-h-full min-w-fit">
-                  <div
-                    className="hover:bg-neutral-800 rounded-lg p-3 text-center font-medium cursor-pointer w-72 text-sm"
-                    onClick={addList}>
-                    + Add
-                  </div>
-                </div>
-              </>
-            )
           )}
         </main>
       ) : (
@@ -104,13 +128,14 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
               ) : (
                 <>
                   <GoogleIcon />
-                  <div className="whitespace-nowrap overflow-hidden">Continue with Google</div>
+                  <div className="whitespace-nowrap">Continue with Google</div>
                 </>
               )}
             </button>
           </div>
         </main>
       )}
+      <Toaster />
     </>
   );
 };
