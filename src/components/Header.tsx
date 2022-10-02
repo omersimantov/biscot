@@ -6,7 +6,7 @@ export const Header = (): JSX.Element => {
   return (
     <header className="border-b border-border h-16 px-5 sm:px-10 flex items-center justify-between bg-neutral-800">
       <Link href="/">
-        <a>
+        <a aria-label="Logo">
           <Logo className="w-8 text-neutral-500 hover:text-white" />
         </a>
       </Link>
