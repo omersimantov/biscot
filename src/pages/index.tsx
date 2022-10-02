@@ -42,7 +42,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
     return data;
   };
 
-  const { data: lists, mutate } = useSWR<TList[]>("/api/list", fetchLists, { refreshInterval: 0 });
+  const { data: lists, mutate } = useSWR<TList[]>("/api/list", fetchLists);
 
   const addList = async (): Promise<void> => {
     const newList = getNewList();
@@ -68,7 +68,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       id: cuid(),
       createdAt: new Date(),
       index: lastIndex ? lastIndex + 1024 : 65535,
-      title: "",
+      title: "New List",
       cards: [],
       userId: uid
     };

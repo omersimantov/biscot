@@ -15,7 +15,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           content="Biscot is a minimal alternative to Trello for people who use it for personal stuff"
         />
       </Head>
-      <Component {...pageProps} options={{ gestureEnabled: false }} />
+      <Component {...pageProps} />
     </>
   );
 };
