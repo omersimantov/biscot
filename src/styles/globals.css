@@ -5,6 +5,7 @@
 @layer base {
   * {
     @apply select-none outline-none overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-900 hover:scrollbar-thumb-neutral-400 scrollbar-thumb-rounded;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
@@ -17,7 +18,7 @@
   }
 
   hr {
-    @apply my-10 h-0.5 border-0 bg-border;
+    @apply my-6 h-[1px] border-0 bg-border;
   }
 
   b {
@@ -25,7 +26,7 @@
   }
 
   a {
-    @apply underline w-fit cursor-pointer;
+    @apply underline w-fit cursor-pointer underline-offset-[6px];
   }
 
   a[target="_blank"] {

@@ -86,12 +86,9 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
           )}
         </main>
       ) : (
-        <main className="grid px-5 items-center py-10 min-h-[calc(100vh-4rem)]">
-          <div className="space-y-6 w-80 mx-auto">
+        <main className="flex px-5 justify-center items-center py-10 min-h-[calc(100vh-4rem)]">
+          <div className="space-y-6 w-80 max-w-sm">
             <Logo className="w-10" />
-            <div className="text-center text-lg">
-              Biscot is a minimal alternative to Trello for people who use it for personal stuff.
-            </div>
             <button
               disabled={loading}
               onClick={(): void => {
@@ -99,7 +96,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
                 signIn("google");
               }}
               className={classNames(
-                "h-[4.5rem] border-border bg-neutral-800 border rounded-lg w-full font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight",
+                "h-[4.5rem] px-5 border-border bg-neutral-800 border w-full rounded-lg font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight",
                 loading && "cursor-not-allowed hover:border-border"
               )}>
               {loading ? (
@@ -107,7 +104,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
               ) : (
                 <>
                   <GoogleIcon />
-                  <div>Continue with Google</div>
+                  <div className="whitespace-nowrap overflow-hidden">Continue with Google</div>
                 </>
               )}
             </button>
