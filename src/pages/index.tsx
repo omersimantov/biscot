@@ -79,7 +79,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       {uid ? (
         <div
           className={classNames(
-            "!overflow-x-auto overscroll-none min-w-full -mx-5 -my-10 py-10 flex h-[calc(100vh-4rem)]",
+            "!overflow-x-auto overscroll-none w-screen -mx-5 -my-10 py-10 flex h-[calc(100vh-4rem)]",
             lists && "divide-x-[1px] divide-neutral-700",
             !lists && "!overflow-x-hidden"
           )}>
@@ -97,7 +97,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
               </div>
             </>
           ) : (
-            <div className="flex mr-20 divide-x-[1px] divide-neutral-700 min-w-fit">
+            <div className="flex divide-x-[1px] divide-neutral-700 min-w-fit">
               {Array(20)
                 .fill(true)
                 .map((_, i) => (
