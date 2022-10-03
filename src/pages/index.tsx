@@ -9,20 +9,23 @@ import { default as classNames } from "classnames";
 import cuid from "cuid";
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import { getSession, signIn } from "next-auth/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 const Home: NextPage<{ uid: string }> = ({ uid }) => {
+  const [lists, setLists] = useState<TList[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const endRef = useRef<HTMLDivElement>(null);
 
-  const fetchLists = async (): Promise<TList[]> => {
+  useEffect((): void => {
+    fetchLists();
+  }, []);
+
+  const fetchLists = async (): Promise<void> => {
     const res = await fetch("/api/list");
     const data = await res.json();
-    return data;
+    setLists(data);
   };
-
-  const { data: lists, mutate } = useSWR<TList[]>("/api/list", fetchLists);
 
   const addList = async (): Promise<void> => {
     const newList = getNewList();
@@ -30,16 +33,12 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
     setTimeout((): void => {
       endRef.current && endRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
     });
-    const newListsArray = lists ? [...lists, newList] : [newList];
-    const addList = async (): Promise<TList[]> => {
-      await fetch("/api/list", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newList)
-      });
-      return newListsArray;
-    };
-    mutate(addList(), { optimisticData: newListsArray, rollbackOnError: true });
+    lists ? setLists([...lists, newList]) : setLists([newList]);
+    await fetch("/api/list", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newList)
+    });
   };
 
   const getNewList = (): TList => {
