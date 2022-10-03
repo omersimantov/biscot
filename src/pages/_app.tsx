@@ -13,7 +13,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
         <title>Biscot</title>
         <meta
           name="description"
-          content="Biscot is a minimal alternative to Trello for people who use it for personal stuff"
+          content="Biscot is a minimal alternative to Trello for people who use it for personal stuff."
         />
       </Head>
       <Layout>

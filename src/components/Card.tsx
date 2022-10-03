@@ -136,8 +136,8 @@ export const Card = (card: TCard): JSX.Element => {
   return show ? (
     <>
       <div
-        className="border w-72 rounded-lg border-border cursor-pointer bg-neutral-800 p-3 
-        font-medium hover:border-borderLight items-center flex justify-between space-x-3 mb-3 text-sm"
+        className="border w-72 rounded-lg cursor-pointer bg-neutral-800 p-3 
+        font-medium hover:border-light items-center flex justify-between space-x-3 mb-3 text-sm"
         onClick={(e): false | void => !editMode && toggleModal(e)}>
         {editMode ? (
           <form onSubmit={updateCard} className="w-full" ref={formRef}>

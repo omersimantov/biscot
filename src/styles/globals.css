@@ -14,7 +14,7 @@
 
   [type="text"],
   textarea {
-    @apply leading-6 hover:border-borderLight bg-neutral-800 w-full p-0 focus:ring-transparent resize-none text-sm block border border-border focus:border-borderLight rounded-lg placeholder:text-neutral-500;
+    @apply leading-6 hover:border-light bg-neutral-800 w-full p-0 focus:ring-transparent resize-none text-sm block border focus:border-light rounded-lg placeholder:text-neutral-500;
   }
 
   hr {

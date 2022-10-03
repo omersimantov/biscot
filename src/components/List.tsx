@@ -72,9 +72,9 @@ export const List = (list: TList): JSX.Element => {
   };
 
   return show ? (
-    <div className="px-10 group min-w-fit overscroll-y-none">
-      <div className="bg-bg h-14 text-lg font-bold w-72">
-        <div className="flex justify-between cursor-pointer items-center">
+    <div className="px-10 group min-w-fit overscroll-y-none overflow-hidden cursor-auto border-r border-neutral-700">
+      <div className="bg-bg h-14 text-lg font-bold w-72 cursor-pointer">
+        <div className="flex justify-between items-center">
           {editMode ? (
             <form onSubmit={updateTitle} ref={formRef}>
               <input

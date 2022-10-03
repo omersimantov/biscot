@@ -11,25 +11,6 @@ import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "ne
 import { getSession, signIn } from "next-auth/react";
 import { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import useSWR from "swr";
-
-export const showToast = (id: string, undo: () => void): void => {
-  toast.custom(
-    <div
-      className="rounded-lg p-4 border-border hover:border-borderLight border cursor-pointer bg-neutral-900"
-      onClick={(): void => {
-        undo();
-        toast.remove(id);
-      }}>
-      <ArrowUturnLeftIcon className="w-4 text-white" strokeWidth={2} />
-    </div>,
-    {
-      position: "bottom-left",
-      duration: 5000,
-      id
-    }
-  );
-};
 
 const Home: NextPage<{ uid: string }> = ({ uid }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -79,8 +60,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       {uid ? (
         <div
           className={classNames(
-            "!overflow-x-auto overscroll-none w-screen -mx-5 -my-10 py-10 flex h-[calc(100vh-4rem)]",
-            lists && "divide-x-[1px] divide-neutral-700",
+            "!overflow-x-auto overscroll-none w-screen -mx-5 -my-10 py-10 flex max-h-screen overflow-y-hidden h-[calc(100vh-4rem)]",
             !lists && "!overflow-x-hidden"
           )}>
           {lists ? (
@@ -116,7 +96,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
               signIn("google");
             }}
             className={classNames(
-              "h-[4.5rem] px-5 border-border bg-neutral-800 border w-full rounded-lg font-bold no-underline items-center flex justify-center space-x-3 hover:border-borderLight",
+              "h-[4.5rem] px-5 bg-neutral-800 border w-full rounded-lg font-bold no-underline items-center flex justify-center space-x-3 hover:border-light",
               loading && "cursor-not-allowed hover:border-border"
             )}>
             {loading ? (
@@ -142,4 +122,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   if (!session) return { props: {} };
   const uid = session.user.id;
   return { props: { uid } };
+};
+
+export const showToast = (id: string, undo: () => void): void => {
+  toast.custom(
+    <div
+      className="rounded-lg p-4 hover:border-light border cursor-pointer bg-neutral-900"
+      onClick={(): void => {
+        undo();
+        toast.remove(id);
+      }}>
+      <ArrowUturnLeftIcon className="w-4 text-white" strokeWidth={2} />
+    </div>,
+    {
+      position: "bottom-left",
+      duration: 5000,
+      id
+    }
+  );
 };
