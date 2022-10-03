@@ -43,11 +43,10 @@ export const Card = (card: TCard): JSX.Element => {
     setTitle(title.trim());
     setDescription(description);
     if (title === "") setTitle(card.title);
-    const { id } = card;
     await fetch("/api/card", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, title, description })
+      body: JSON.stringify({ ...card, title, description })
     });
   };
 
@@ -109,7 +108,7 @@ export const Card = (card: TCard): JSX.Element => {
           placeholder="Description"
           className="p-4"
           value={description}
-          rows={15}
+          rows={10}
           autoFocus
           onChange={(v): void => setDescription(v.target.value)}
           onFocus={(v): void => {

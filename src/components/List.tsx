@@ -16,7 +16,7 @@ export const List = (list: TList): JSX.Element => {
   const [title, setTitle] = useState<string>(list.title);
 
   useClickOutside((e: FormEvent<Element>): void => {
-    if (formRef.current && !formRef.current.contains(e.currentTarget)) updateTitle();
+    if (formRef.current && !formRef.current.contains(e.currentTarget)) updateList();
   });
 
   const remove = async (): Promise<void> => {
@@ -32,20 +32,15 @@ export const List = (list: TList): JSX.Element => {
 
   const undo = async (): Promise<void> => {
     setShow(true);
-    setEditMode(false);
-    await fetch("/api/list", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(list)
-    });
+    updateList();
   };
 
-  const updateTitle = async (): Promise<void> => {
+  const updateList = async (): Promise<void> => {
     setEditMode(false);
     await fetch("/api/list", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: list.id, title })
+      body: JSON.stringify({ ...list, title, cards })
     });
   };
 
@@ -76,7 +71,7 @@ export const List = (list: TList): JSX.Element => {
       <div className="bg-bg h-14 text-lg font-bold w-72 cursor-pointer">
         <div className="flex justify-between items-center">
           {editMode ? (
-            <form onSubmit={updateTitle} ref={formRef}>
+            <form onSubmit={updateList} ref={formRef}>
               <input
                 type="text"
                 value={title}

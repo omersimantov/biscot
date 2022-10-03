@@ -35,7 +35,11 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     try {
       await prisma.card.update({
         where: { id: req.body.id },
-        data: { title: req.body.title.trim(), description: req.body.description }
+        data: {
+          index: req.body.index,
+          title: req.body.title.trim(),
+          description: req.body.description
+        }
       });
       res.status(200).end();
     } catch (error) {
