@@ -4,7 +4,7 @@ import { getFormattedDate } from "@/lib/utils/getFormattedDate";
 import { Bars3BottomLeftIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import type { Card as TCard } from "@prisma/client";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { showToast } from "src/pages";
+import { undoToast } from "src/pages";
 
 export const Card = (card: TCard): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
@@ -15,13 +15,16 @@ export const Card = (card: TCard): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null);
 
   useClickOutside((e: FormEvent<Element>): void => {
-    if (formRef.current && !formRef.current.contains(e.currentTarget) && editMode) updateCard(e);
+    if (formRef.current && !formRef.current.contains(e.currentTarget)) {
+      setEditMode(false);
+      updateCard(e);
+    }
   });
 
   const remove = async (): Promise<void> => {
     setShow(false);
     const { id } = card;
-    showToast(id, undo);
+    undoToast(id, undo);
     await fetch("/api/card", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -42,7 +45,6 @@ export const Card = (card: TCard): JSX.Element => {
     e.preventDefault();
     setEditMode(false);
     setTitle(title.trim());
-    setDescription(description);
     if (title === "") setTitle(card.title);
     await fetch("/api/card", {
       method: "PATCH",

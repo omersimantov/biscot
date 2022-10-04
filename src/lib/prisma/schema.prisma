@@ -55,7 +55,6 @@ model List {
   cards     Card[]
 
   @@unique([userId, index])
-  @@index([index])
 }
 
 model Card {
@@ -68,5 +67,4 @@ model Card {
   list        List     @relation(fields: [listId], references: [id], onDelete: Cascade)
 
   @@unique([listId, index])
-  @@index([index])
 }

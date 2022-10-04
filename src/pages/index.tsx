@@ -4,7 +4,7 @@ import { ListSkeleton } from "@/components/ListSkeleton";
 import { Logo } from "@/components/Logo";
 import { Spinner } from "@/components/Spinner";
 import type { List as TList } from "@/lib/prisma/client";
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
+import { ArrowUturnLeftIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { default as classNames } from "classnames";
 import cuid from "cuid";
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
@@ -28,20 +28,24 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   };
 
   const addList = async (): Promise<void> => {
-    const newList = getNewList();
+    const newList = createNewList();
     // Unclear why the setTimeout is necessary, but it is
     setTimeout((): void => {
       endRef.current && endRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
     });
     lists ? setLists([...lists, newList]) : setLists([newList]);
-    await fetch("/api/list", {
+    const res = await fetch("/api/list", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newList)
     });
+    if (!res.ok) {
+      setLists([...lists!]);
+      errorToast();
+    }
   };
 
-  const getNewList = (): TList => {
+  const createNewList = (): TList => {
     const lastIndex = lists && lists[lists.length - 1]?.index;
     const newList: TList = {
       id: cuid(),
@@ -87,7 +91,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
         </div>
       ) : (
         <div className="space-y-6 w-80 max-w-sm">
-          <Logo className="w-10" />
+          <Logo className="w-12" />
           <button
             disabled={loading}
             onClick={(): void => {
@@ -123,7 +127,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
   return { props: { uid } };
 };
 
-export const showToast = (id: string, undo: () => void): void => {
+export const undoToast = (id: string, undo: () => void): void => {
   toast.custom(
     <div
       className="rounded-lg p-4 hover:border-light border cursor-pointer bg-neutral-900"
@@ -135,8 +139,20 @@ export const showToast = (id: string, undo: () => void): void => {
     </div>,
     {
       position: "bottom-left",
-      duration: 5000,
+      duration: 10000,
       id
+    }
+  );
+};
+
+export const errorToast = (): void => {
+  toast.custom(
+    <div className="rounded-lg p-4 border border-red bg-neutral-900">
+      <ExclamationCircleIcon className="w-4 text-red" strokeWidth={2} />
+    </div>,
+    {
+      position: "bottom-left",
+      duration: 10000
     }
   );
 };

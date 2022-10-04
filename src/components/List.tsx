@@ -5,7 +5,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import type { Card as TCard } from "@prisma/client";
 import cuid from "cuid";
 import { FormEvent, useRef, useState } from "react";
-import { showToast } from "src/pages";
+import { errorToast, undoToast } from "src/pages";
 
 export const List = (list: TList): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
@@ -16,13 +16,16 @@ export const List = (list: TList): JSX.Element => {
   const [title, setTitle] = useState<string>(list.title);
 
   useClickOutside((e: FormEvent<Element>): void => {
-    if (formRef.current && !formRef.current.contains(e.currentTarget)) updateList();
+    if (formRef.current && !formRef.current.contains(e.currentTarget)) {
+      setEditMode(false);
+      updateList();
+    }
   });
 
   const remove = async (): Promise<void> => {
     setShow(false);
     const { id } = list;
-    showToast(id, undo);
+    undoToast(id, undo);
     await fetch("/api/list", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -30,9 +33,15 @@ export const List = (list: TList): JSX.Element => {
     });
   };
 
+  // FIXME: Cards array is static, doesn't get updated when cards get updated in state
   const undo = async (): Promise<void> => {
     setShow(true);
-    updateList();
+    setEditMode(false);
+    await fetch("/api/list", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...list, title, cards })
+    });
   };
 
   const updateList = async (): Promise<void> => {
@@ -59,16 +68,27 @@ export const List = (list: TList): JSX.Element => {
     setTimeout(() => {
       endRef.current && endRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
     });
-    await fetch("/api/card", {
+    const res = await fetch("/api/card", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCard)
     });
+    if (!res.ok) {
+      setCards([...cards!]);
+      errorToast();
+    }
+  };
+
   };
 
   return show ? (
-    <div className="px-10 group min-w-fit overscroll-y-none overflow-hidden cursor-auto border-r border-neutral-700">
-      <div className="bg-bg h-14 text-lg font-bold w-72 cursor-pointer">
+    <div className="px-10 group min-w-fit overscroll-y-none border-r border-neutral-700">
+      <div
+        className="h-14 text-lg font-bold w-72 cursor-pointer"
+        onClick={(e): void => {
+          e.stopPropagation();
+          setEditMode(true);
+        }}>
         <div className="flex justify-between items-center">
           {editMode ? (
             <form onSubmit={updateList} ref={formRef}>
@@ -81,14 +101,7 @@ export const List = (list: TList): JSX.Element => {
               />
             </form>
           ) : (
-            <h1
-              className="text-lg font-bold w-full"
-              onClick={(e): void => {
-                e.stopPropagation();
-                setEditMode(true);
-              }}>
-              {title}
-            </h1>
+            <h1 className="text-lg font-bold w-full">{title}</h1>
           )}
           <div className="min-w-fit">
             {editMode ? (
