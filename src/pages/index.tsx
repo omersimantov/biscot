@@ -18,7 +18,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect((): void => {
-    fetchLists();
+    uid && fetchLists();
   }, []);
 
   const fetchLists = async (): Promise<void> => {
