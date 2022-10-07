@@ -22,9 +22,9 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   }, []);
 
   const fetchLists = async (): Promise<void> => {
-    const res = await fetch("/api/list");
-    const data = await res.json();
-    setLists(data);
+    const res = await fetch(`/api/users/${uid}/lists`);
+    const { lists } = await res.json();
+    setLists(lists);
   };
 
   const addList = async (): Promise<void> => {
@@ -34,7 +34,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       endRef.current && endRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
     });
     lists ? setLists([...lists, newList]) : setLists([newList]);
-    const res = await fetch("/api/list", {
+    const res = await fetch("/api/lists", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newList)

@@ -26,18 +26,14 @@ export const List = (list: TList): JSX.Element => {
     setShow(false);
     const { id } = list;
     undoToast(id, undo);
-    await fetch("/api/list", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id })
-    });
+    await fetch(`/api/lists/${list.id}`, { method: "DELETE" });
   };
 
   // FIXME: Cards array is static, doesn't get updated when cards get updated in state
   const undo = async (): Promise<void> => {
     setShow(true);
     setEditMode(false);
-    await fetch("/api/list", {
+    await fetch("/api/lists", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...list, title, cards })
@@ -46,7 +42,7 @@ export const List = (list: TList): JSX.Element => {
 
   const updateList = async (): Promise<void> => {
     setEditMode(false);
-    await fetch("/api/list", {
+    await fetch(`/api/lists/${list.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...list, title, cards })
@@ -68,7 +64,7 @@ export const List = (list: TList): JSX.Element => {
     setTimeout(() => {
       endRef.current && endRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
     });
-    const res = await fetch("/api/card", {
+    const res = await fetch("/api/cards", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCard)
@@ -77,8 +73,6 @@ export const List = (list: TList): JSX.Element => {
       setCards([...cards!]);
       errorToast();
     }
-  };
-
   };
 
   return show ? (

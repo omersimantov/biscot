@@ -25,16 +25,12 @@ export const Card = (card: TCard): JSX.Element => {
     setShow(false);
     const { id } = card;
     undoToast(id, undo);
-    await fetch("/api/card", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id })
-    });
+    await fetch(`/api/cards/${card.id}`, { method: "DELETE" });
   };
 
   const undo = async (): Promise<void> => {
     setShow(true);
-    await fetch("/api/card", {
+    await fetch("/api/cards", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(card)
@@ -46,7 +42,7 @@ export const Card = (card: TCard): JSX.Element => {
     setEditMode(false);
     setTitle(title.trim());
     if (title === "") setTitle(card.title);
-    await fetch("/api/card", {
+    await fetch(`/api/cards/${card.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...card, title, description })
