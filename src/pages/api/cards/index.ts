@@ -19,31 +19,4 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       return res.status(500).json({ error });
     }
   }
-
-  if (req.method === "DELETE") {
-    try {
-      await prisma.card.delete({
-        where: { id: req.body.id }
-      });
-      res.status(200).end();
-    } catch (error) {
-      return res.status(500).json({ error });
-    }
-  }
-
-  if (req.method === "PATCH") {
-    try {
-      await prisma.card.update({
-        where: { id: req.body.id },
-        data: {
-          index: req.body.index,
-          title: req.body.title.trim(),
-          description: req.body.description
-        }
-      });
-      res.status(200).end();
-    } catch (error) {
-      return res.status(500).json({ error });
-    }
-  }
 };
