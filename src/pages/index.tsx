@@ -18,7 +18,10 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect((): void => {
-    uid && fetchLists();
+    if (uid) {
+      fetchLists();
+      document.documentElement.style.overscrollBehavior = "none";
+    }
   }, []);
 
   const fetchLists = async (): Promise<void> => {
