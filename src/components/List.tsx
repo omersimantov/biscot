@@ -10,10 +10,10 @@ import { undoToast } from "src/pages";
 export const List = (list: TList): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
   const [cards, setCards] = useState<TCard[]>(list.cards);
-  const endRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [title, setTitle] = useState<string>(list.title);
+  const endRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useClickOutside((e: FormEvent<Element>): void => {
     if (formRef.current && !formRef.current.contains(e.target as Node)) {
@@ -75,6 +75,7 @@ export const List = (list: TList): JSX.Element => {
     <div className="px-10 group min-w-fit overscroll-y-none border-r border-neutral-700">
       <div
         className="h-14 text-lg font-bold w-72 cursor-pointer"
+        onContextMenu={(e): void => setEditMode(true)}
         onClick={(e): void => {
           if (!editMode) {
             e.stopPropagation();

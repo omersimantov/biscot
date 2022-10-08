@@ -121,7 +121,8 @@ export const Card = (card: TCard): JSX.Element => {
       <div
         className="border w-72 rounded-lg cursor-pointer bg-neutral-800 p-3 
         font-medium hover:border-light items-center flex justify-between space-x-3 mb-3 text-sm"
-        onClick={(e): false | void => !editMode && toggleModal(e)}>
+        onClick={(e): false | void => !editMode && toggleModal(e)}
+        onContextMenu={(): void => setEditMode(true)}>
         {editMode ? (
           <form onSubmit={updateCard} className="w-full" ref={formRef}>
             <input
