@@ -16,7 +16,7 @@ export const List = (list: TList): JSX.Element => {
   const [title, setTitle] = useState<string>(list.title);
 
   useClickOutside((e: FormEvent<Element>): void => {
-    if (formRef.current && !formRef.current.contains(e.currentTarget)) {
+    if (formRef.current && !formRef.current.contains(e.target as Node)) {
       setEditMode(false);
       updateList();
     }
@@ -76,8 +76,10 @@ export const List = (list: TList): JSX.Element => {
       <div
         className="h-14 text-lg font-bold w-72 cursor-pointer"
         onClick={(e): void => {
-          e.stopPropagation();
-          setEditMode(true);
+          if (!editMode) {
+            e.stopPropagation();
+            setEditMode(true);
+          }
         }}>
         <div className="flex justify-between items-center">
           {editMode ? (

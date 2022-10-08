@@ -15,7 +15,7 @@ export const Card = (card: TCard): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null);
 
   useClickOutside((e: FormEvent<Element>): void => {
-    if (formRef.current && !formRef.current.contains(e.currentTarget)) {
+    if (formRef.current && !formRef.current.contains(e.target as Node)) {
       setEditMode(false);
       updateCard(e);
     }
