@@ -15,10 +15,7 @@ export const Card = (card: TCard): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null);
 
   useClickOutside((e: FormEvent<Element>): void => {
-    if (formRef.current && !formRef.current.contains(e.target as Node)) {
-      setEditMode(false);
-      updateCard(e);
-    }
+    if (formRef.current && !formRef.current.contains(e.target as Node)) updateCard(e);
   });
 
   const remove = async (): Promise<void> => {
@@ -41,7 +38,6 @@ export const Card = (card: TCard): JSX.Element => {
     e.preventDefault();
     setEditMode(false);
     setTitle(title.trim());
-    if (title === "") setTitle(card.title);
     await fetch(`/api/cards/${card.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -121,7 +117,7 @@ export const Card = (card: TCard): JSX.Element => {
       <div
         className="border w-72 rounded-lg cursor-pointer bg-neutral-800 p-3 
         font-medium hover:border-light items-center flex justify-between space-x-3 mb-3 text-sm"
-        onClick={(e): false | void => !editMode && toggleModal(e)}
+        onClick={(e): void => toggleModal(e)}
         onContextMenu={(): void => setEditMode(true)}>
         {editMode ? (
           <form onSubmit={updateCard} className="w-full" ref={formRef}>

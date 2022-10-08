@@ -16,10 +16,7 @@ export const List = (list: TList): JSX.Element => {
   const formRef = useRef<HTMLFormElement>(null);
 
   useClickOutside((e: FormEvent<Element>): void => {
-    if (formRef.current && !formRef.current.contains(e.target as Node)) {
-      setEditMode(false);
-      updateList();
-    }
+    if (formRef.current && !formRef.current.contains(e.target as Node)) updateList();
   });
 
   const remove = async (): Promise<void> => {
@@ -42,6 +39,7 @@ export const List = (list: TList): JSX.Element => {
 
   const updateList = async (): Promise<void> => {
     setEditMode(false);
+    setTitle(title.trim());
     await fetch(`/api/lists/${list.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
