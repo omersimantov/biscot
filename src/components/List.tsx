@@ -5,7 +5,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import type { Card as TCard } from "@prisma/client";
 import cuid from "cuid";
 import { FormEvent, useRef, useState } from "react";
-import { errorToast, undoToast } from "src/pages";
+import { undoToast } from "src/pages";
 
 export const List = (list: TList): JSX.Element => {
   const [show, setShow] = useState<boolean>(true);
@@ -64,15 +64,11 @@ export const List = (list: TList): JSX.Element => {
     setTimeout(() => {
       endRef.current && endRef.current.scrollIntoView({ block: "end", behavior: "smooth" });
     });
-    const res = await fetch("/api/cards", {
+    await fetch("/api/cards", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newCard)
     });
-    if (!res.ok) {
-      setCards([...cards!]);
-      errorToast();
-    }
   };
 
   return show ? (
@@ -121,7 +117,7 @@ export const List = (list: TList): JSX.Element => {
         </div>
       </div>
       {cards.map((card: TCard) => (
-        <Card key={card.index} {...card} />
+        <Card key={card.id} {...card} />
       ))}
       <div
         ref={endRef}

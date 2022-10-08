@@ -34,15 +34,11 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       endRef.current && endRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
     });
     lists ? setLists([...lists, newList]) : setLists([newList]);
-    const res = await fetch("/api/lists", {
+    await fetch("/api/lists", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newList)
     });
-    if (!res.ok) {
-      setLists([...lists!]);
-      errorToast();
-    }
   };
 
   const createNewList = (): TList => {
@@ -63,13 +59,13 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       {uid ? (
         <div
           className={classNames(
-            "!overflow-x-auto overscroll-none w-screen -mx-5 -my-10 py-10 flex max-h-screen overflow-y-hidden h-[calc(100vh-4rem)]",
+            "!overflow-x-auto overscroll-none w-screen -mx-5 -my-10 py-10 flex overflow-y-hidden h-[calc(100vh-4rem)]",
             !lists && "!overflow-x-hidden"
           )}>
           {lists ? (
             <>
               {lists.map((list) => (
-                <List key={list.index} {...list} />
+                <List key={list.id} {...list} />
               ))}
               <div ref={endRef} className="px-10 min-h-full min-w-fit">
                 <div
