@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
+import { RefObject, useEffect } from "react";
 
-export const useClickOutside = (action: any): void => {
+export const useClickOutside = (ref: RefObject<Element>, callback: () => void): void => {
+  const handleClick = (e: any): void => {
+    if (ref.current && !ref.current.contains(e.target)) {
+      callback();
+    }
+  };
   useEffect(() => {
-    document.addEventListener("click", action, false);
+    document.addEventListener("click", handleClick);
     return (): void => {
-      document.removeEventListener("click", action, false);
+      document.removeEventListener("click", handleClick);
     };
-  }, []);
+  });
 };
