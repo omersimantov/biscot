@@ -14,7 +14,7 @@
 
   [type="text"],
   textarea {
-    @apply leading-7 hover:border-light bg-neutral-800 w-full p-0 focus:ring-transparent resize-none text-sm block border-border focus:border-light rounded-lg placeholder:text-neutral-500;
+    @apply leading-7 bg-transparent border-transparent w-full p-0 focus:ring-transparent resize-none text-sm block focus:border-transparent m-0 rounded-lg placeholder:text-neutral-500;
   }
 
   hr {
@@ -26,7 +26,7 @@
   }
 
   a {
-    @apply underline w-fit cursor-pointer underline-offset-[6px];
+    @apply hover:underline w-fit cursor-pointer font-bold;
   }
 
   a[target="_blank"] {
