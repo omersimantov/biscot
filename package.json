@@ -57,7 +57,7 @@
     "postcss": "^8.4.18",
     "prisma": "^4.5.0",
     "tailwind-scrollbar": "^2.0.1",
-    "tailwindcss": "^3.1.8",
+    "tailwindcss": "^3.2.0",
     "ts-prune": "^0.10.3",
     "typescript": "4.8.4"
   },
