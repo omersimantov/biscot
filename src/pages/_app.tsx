@@ -1,9 +1,22 @@
 import { Layout } from "@/components/Layout";
+import { DehydratedState, Hydrate, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppType } from "next/app";
 import Head from "next/head";
+import { useState } from "react";
 import "../styles/globals.css";
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType<{ dehydratedState: DehydratedState }> = ({ Component, pageProps }): JSX.Element => {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            staleTime: Infinity
+          }
+        }
+      })
+  );
+
   return (
     <>
       <Head>
@@ -16,9 +29,13 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           content="Biscot is a minimal alternative to Trello for people who use it for personal stuff."
         />
       </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Hydrate>
+      </QueryClientProvider>
     </>
   );
 };
