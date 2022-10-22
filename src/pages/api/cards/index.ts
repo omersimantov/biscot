@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       });
       return res.status(201).json(card);
     } catch (error) {
-      return res.status(500).json({ error });
+      return res.status(500).json(error);
     }
   }
 };

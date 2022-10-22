@@ -23,7 +23,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       });
       res.status(200).end();
     } catch (error) {
-      return res.status(500).json({ error });
+      return res.status(500).json(error);
     }
   }
 
@@ -32,7 +32,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
       await prisma.card.delete({ where: { id: id as string } });
       res.status(200).end();
     } catch (error) {
-      return res.status(500).json({ error });
+      return res.status(500).json(error);
     }
   }
 };
