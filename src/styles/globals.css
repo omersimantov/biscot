@@ -14,7 +14,7 @@
 
   [type="text"],
   textarea {
-    @apply leading-7 bg-transparent border-transparent w-full p-0 focus:ring-transparent resize-none text-sm block focus:border-transparent m-0 rounded-lg placeholder:text-neutral-500;
+    @apply leading-7 bg-transparent w-full border-0 p-0 focus:ring-transparent resize-none text-sm block focus:border-transparent m-0 rounded-lg placeholder:text-neutral-500;
   }
 
   hr {
