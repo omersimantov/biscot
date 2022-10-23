@@ -11,7 +11,8 @@ const MyApp: AppType<{ dehydratedState: DehydratedState }> = ({ Component, pageP
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: Infinity
+            staleTime: Infinity,
+            refetchOnWindowFocus: false
           }
         }
       })
