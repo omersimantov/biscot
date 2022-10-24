@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 export const errorToast = (): void => {
   toast.custom(
-    <div className="rounded-lg p-4 border border-red bg-neutral-900">
+    <div className="rounded-lg h-14 flex items-center justify-center w-14 border border-red bg-neutral-900">
       <ExclamationCircleIcon className="w-5 text-red" strokeWidth={2} />
     </div>,
     {

@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 export const undoToast = (id: string, undo: () => void): void => {
   toast.custom(
     <div
-      className="rounded-lg p-4 hover:border-light border cursor-pointer bg-neutral-900"
+      className="rounded-lg h-14 w-14 flex items-center justify-center hover:border-light border cursor-pointer bg-neutral-900"
       onClick={(): void => {
         undo();
         toast.remove(id);
