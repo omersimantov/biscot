@@ -1,5 +1,5 @@
 import { Logo } from "@/components/Logo";
-import { Bars3Icon } from "@heroicons/react/24/outline";
+// import { Bars3Icon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 export const Header = (): JSX.Element => {
@@ -10,7 +10,7 @@ export const Header = (): JSX.Element => {
           <Logo className="w-8 text-neutral-500 hover:text-white" />
         </a>
       </Link>
-      <Bars3Icon className="w-8 text-neutral-500 hover:text-white cursor-pointer" strokeWidth={1} />
+      {/* <Bars3Icon className="w-8 text-neutral-500 hover:text-white cursor-pointer" strokeWidth={1} /> */}
     </header>
   );
 };
