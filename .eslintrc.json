@@ -1,8 +1,62 @@
 {
+  "root": true,
+  "plugins": ["@typescript-eslint", "prettier", "react", "react-hooks", "eslint-plugin-jsx-a11y"],
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:react-hooks/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"]
+  "globals": {
+    "React": "readonly"
+  },
+  "rules": {
+    "max-params": "warn",
+    "max-nested-callbacks": "warn",
+    "@typescript-eslint/explicit-function-return-type": "warn",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@next/next/no-img-element": "off",
+    "jsx-a11y/role-supports-aria-props": "off", // @see https://github.com/vercel/next.js/issues/27989#issuecomment-897638654
+    "no-console": "error",
+    "no-unused-vars": ["warn", { "args": "after-used", "argsIgnorePattern": "^_" }],
+    "import/no-anonymous-default-export": "off",
+    "eqeqeq": "warn",
+    "react/no-unescaped-entities": "off",
+    "react/no-children-prop": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "react/jsx-curly-brace-presence": "warn",
+    "react/self-closing-comp": "warn",
+    "react/jsx-no-target-blank": [
+      "error",
+      {
+        "allowReferrer": false,
+        "enforceDynamicLinks": "always",
+        "warnOnSpreadAttributes": true,
+        "links": true,
+        "forms": true
+      }
+    ],
+    "react/jsx-no-useless-fragment": [
+      "warn",
+      {
+        "allowExpressions": true
+      }
+    ],
+    "jsx-a11y/alt-text": [
+      "error",
+      {
+        "elements": ["img", "object", "area", "input[type=\"image\"]"],
+        "img": ["Image"],
+        "object": ["Object"],
+        "area": ["Area"],
+        "input[type=\"image\"]": ["InputImage"]
+      }
+    ]
+  }
 }
