@@ -1,7 +1,12 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { MouseEventHandler, useCallback, useEffect, useRef } from "react";
 
-export const Modal = ({ toggle, content }: { content: JSX.Element; toggle: MouseEventHandler }): JSX.Element => {
+interface IModal {
+  toggle: MouseEventHandler;
+  content: JSX.Element;
+}
+
+export const Modal = ({ toggle, content }: IModal): JSX.Element => {
   const bgRef = useRef<HTMLDivElement>(null);
 
   const closeModalOnBGClick = (e: React.MouseEvent<HTMLElement>): void => {
