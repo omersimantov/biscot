@@ -10,12 +10,14 @@ import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { default as classNames } from "classnames";
 import cuid from "cuid";
-import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
-import { getSession, signIn } from "next-auth/react";
+import type { NextPage } from "next";
+import { signIn, useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
-const Home: NextPage<{ uid: string }> = ({ uid }) => {
+const Home: NextPage = () => {
+  const session = useSession();
+  const uid = session.data?.user.id;
   const queryClient = useQueryClient();
   const [loading, setLoading] = useState<boolean>(false);
   const endRef = useRef<HTMLDivElement>(null);
@@ -106,7 +108,7 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
       index: lastIndex ? lastIndex + 1024 : 102400,
       title: "New List",
       cards: [],
-      userId: uid
+      userId: uid!
     };
     return newList;
   };
@@ -204,10 +206,3 @@ const Home: NextPage<{ uid: string }> = ({ uid }) => {
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  const session = await getSession(ctx);
-  if (!session) return { props: {} };
-  const uid = session.user.id;
-  return { props: { uid } };
-};
