@@ -142,7 +142,9 @@ const Home: NextPage = () => {
 
   return (
     <>
-      {uid ? (
+      {session.status === "loading" ? (
+        <Spinner />
+      ) : uid ? (
         <div
           className={classNames(
             "!overflow-x-auto overscroll-none w-screen -mx-5 -my-10 py-10 flex overflow-y-hidden h-[calc(100vh-4rem)]",
