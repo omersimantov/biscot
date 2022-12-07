@@ -9,7 +9,7 @@
   }
 
   html {
-    @apply antialiased bg-bg text-white leading-7 overscroll-y-none overflow-x-hidden;
+    @apply antialiased bg-bg text-white leading-7 overscroll-y-none;
   }
 
   [type="text"],
